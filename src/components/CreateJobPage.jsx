@@ -13,14 +13,17 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useToast } from "@/components/ui/use-toast";
-import { Toaster } from "@/components/ui/toaster";
 
 export function CreateJobPage({ userRole = "creator" }) {
   const [activePage, setActivePage] = useState("addJobs");
   const [showSubmitDialog, setShowSubmitDialog] = useState(false);
   const [jobs, setJobs] = useState([]);
-  const { toast } = useToast();
+  const [errors, setErrors] = useState({
+    heading: false,
+    description: false,
+    task: false,
+    ustarPoints: false,
+  });
 
   const [formData, setFormData] = useState({
     heading: "",
@@ -35,15 +38,27 @@ export function CreateJobPage({ userRole = "creator" }) {
       ...prev,
       [name]: value,
     }));
+    // Clear error for this field when user starts typing
+    setErrors((prev) => ({
+      ...prev,
+      [name]: false,
+    }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {
+      heading: !formData.heading.trim(),
+      description: !formData.description.trim(),
+      task: !formData.task.trim(),
+      ustarPoints: !formData.ustarPoints.trim(),
+    };
+
+    setErrors(newErrors);
+    return !Object.values(newErrors).some(Boolean);
   };
 
   const handleSave = () => {
-    if (Object.values(formData).some((value) => value === "")) {
-      toast({
-        title: "Warning",
-        description: "Please fill in all fields before saving.",
-        variant: "destructive",
-      });
+    if (!validateForm()) {
       return;
     }
 
@@ -53,6 +68,7 @@ export function CreateJobPage({ userRole = "creator" }) {
       status: "draft",
       createdAt: new Date().toISOString(),
     };
+
     setJobs((prev) => [...prev, newJob]);
     setFormData({
       heading: "",
@@ -60,20 +76,17 @@ export function CreateJobPage({ userRole = "creator" }) {
       task: "",
       ustarPoints: "",
     });
-    toast({
-      title: "Job Saved",
-      description: "Your job has been saved as a draft.",
+    setErrors({
+      heading: false,
+      description: false,
+      task: false,
+      ustarPoints: false,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (Object.values(formData).some((value) => value === "")) {
-      toast({
-        title: "Warning",
-        description: "Please fill in all fields before submitting.",
-        variant: "destructive",
-      });
+    if (!validateForm()) {
       return;
     }
     setShowSubmitDialog(true);
@@ -93,11 +106,13 @@ export function CreateJobPage({ userRole = "creator" }) {
       task: "",
       ustarPoints: "",
     });
-    setShowSubmitDialog(false);
-    toast({
-      title: "Success",
-      description: "Your job has been submitted successfully.",
+    setErrors({
+      heading: false,
+      description: false,
+      task: false,
+      ustarPoints: false,
     });
+    setShowSubmitDialog(false);
   };
 
   return (
@@ -142,58 +157,94 @@ export function CreateJobPage({ userRole = "creator" }) {
         {activePage === "addJobs" ? (
           <form onSubmit={handleSubmit} className="max-w-3xl mx-auto space-y-6">
             <div className="bg-white rounded-lg p-4 shadow-sm">
-              <Label htmlFor="heading" className="text-sm font-medium">
-                Heading
+              <Label
+                htmlFor="heading"
+                className={`text-sm font-medium ${
+                  errors.heading ? "text-red-500" : ""
+                }`}
+              >
+                Heading{" "}
+                {errors.heading && (
+                  <span className="text-red-500 text-xs ml-1">Required</span>
+                )}
               </Label>
               <Input
                 id="heading"
                 name="heading"
                 value={formData.heading}
                 onChange={handleChange}
-                className="mt-1"
-                required
+                className={`mt-1 ${
+                  errors.heading ? "border-red-500 focus:ring-red-500" : ""
+                }`}
               />
             </div>
 
             <div className="bg-white rounded-lg p-4 shadow-sm">
-              <Label htmlFor="description" className="text-sm font-medium">
-                Description
+              <Label
+                htmlFor="description"
+                className={`text-sm font-medium ${
+                  errors.description ? "text-red-500" : ""
+                }`}
+              >
+                Description{" "}
+                {errors.description && (
+                  <span className="text-red-500 text-xs ml-1">Required</span>
+                )}
               </Label>
               <Textarea
                 id="description"
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
-                className="mt-1"
-                required
+                className={`mt-1 ${
+                  errors.description ? "border-red-500 focus:ring-red-500" : ""
+                }`}
               />
             </div>
 
             <div className="bg-white rounded-lg p-4 shadow-sm">
-              <Label htmlFor="task" className="text-sm font-medium">
-                Task
+              <Label
+                htmlFor="task"
+                className={`text-sm font-medium ${
+                  errors.task ? "text-red-500" : ""
+                }`}
+              >
+                Task{" "}
+                {errors.task && (
+                  <span className="text-red-500 text-xs ml-1">Required</span>
+                )}
               </Label>
               <Textarea
                 id="task"
                 name="task"
                 value={formData.task}
                 onChange={handleChange}
-                className="mt-1"
-                required
+                className={`mt-1 ${
+                  errors.task ? "border-red-500 focus:ring-red-500" : ""
+                }`}
               />
             </div>
 
             <div className="bg-white rounded-lg p-4 shadow-sm">
-              <Label htmlFor="ustarPoints" className="text-sm font-medium">
-                USTAR Points
+              <Label
+                htmlFor="ustarPoints"
+                className={`text-sm font-medium ${
+                  errors.ustarPoints ? "text-red-500" : ""
+                }`}
+              >
+                USTAR Points{" "}
+                {errors.ustarPoints && (
+                  <span className="text-red-500 text-xs ml-1">Required</span>
+                )}
               </Label>
               <Input
                 id="ustarPoints"
                 name="ustarPoints"
                 value={formData.ustarPoints}
                 onChange={handleChange}
-                className="mt-1"
-                required
+                className={`mt-1 ${
+                  errors.ustarPoints ? "border-red-500 focus:ring-red-500" : ""
+                }`}
               />
             </div>
 
@@ -266,6 +317,7 @@ export function CreateJobPage({ userRole = "creator" }) {
         )}
       </main>
 
+      {/* Submit Confirmation Dialog */}
       <Dialog open={showSubmitDialog} onOpenChange={setShowSubmitDialog}>
         <DialogContent>
           <DialogHeader>
@@ -292,8 +344,6 @@ export function CreateJobPage({ userRole = "creator" }) {
           </div>
         </DialogContent>
       </Dialog>
-
-      <Toaster />
     </div>
   );
 }

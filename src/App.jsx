@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Workers from "./components/Workers";
-import { CreateJobPage } from "./components/CreateJobPage";
 import "./index.css";
+import { Creator } from "./components/Creator";
 
 export default function App() {
   const [userRole, setUserRole] = useState("creator");
@@ -9,7 +9,7 @@ export default function App() {
   return (
     <div className="app-container">
       {userRole === "creator" ? (
-        <CreateJobPage />
+        <Creator />
       ) : userRole === "worker" ? (
         <Workers />
       ) : null}

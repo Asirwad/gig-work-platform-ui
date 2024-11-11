@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { GigListingPage } from "./GigListingPage";
-import { GigDetailsPage } from "./GigDetailsPage";
-import { MyJobsPage } from "./MyJobsPage";
+import { GigListingPage } from "./worker/GigListingPage";
+import { GigDetailsPage } from "./worker/GigDetailsPage";
+import { MyJobsPage } from "./worker/MyJobsPage";
 
 const gigs = [
   {

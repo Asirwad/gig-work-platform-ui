@@ -1,7 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { ViewJobDetails } from "./ViewJobDetails";
 
 export function JobList({ jobs }) {
+  const [selectedJob, setSelectedJob] = useState(null);
+
+  const handleJobSelect = (job) => {
+    setSelectedJob(job);
+  };
+
+  const handleBackFromJobDetails = () => {
+    setSelectedJob(null);
+  };
+
+  const handleSaveJobDetails = (updatedJob) => {
+    // Update the job in the list
+    // This would typically involve updating the state in the parent component
+    console.log("Saving updated job:", updatedJob);
+    setSelectedJob(null);
+  };
+
+  if (selectedJob) {
+    return (
+      <ViewJobDetails
+        job={selectedJob}
+        onBack={handleBackFromJobDetails}
+        onSave={handleSaveJobDetails}
+      />
+    );
+  }
+
   return (
     <div className="max-w-3xl mx-auto space-y-4">
       {jobs.map((job) => (
@@ -27,8 +55,9 @@ export function JobList({ jobs }) {
               variant="outline"
               size="sm"
               className="bg-white text-teal-600 border-teal-600 hover:bg-teal-50"
+              onClick={() => handleJobSelect(job)}
             >
-              View
+              {job.status === "draft" ? "Edit" : "View"}
             </Button>
             <Button
               variant="outline"

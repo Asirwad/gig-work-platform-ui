@@ -3,6 +3,7 @@ import { Header } from "./creator/Header";
 import { JobForm } from "./creator/JobForm";
 import { JobList } from "./creator/JobList";
 import { SubmitDialog } from "./creator/SubmitDialog";
+import { useToast } from "@/components/ui/use-toast";
 
 export function Creator() {
   const [activePage, setActivePage] = useState("addJobs");
@@ -15,6 +16,7 @@ export function Creator() {
     ustarPoints: "",
   });
   const [errors, setErrors] = useState({});
+  const { toast } = useToast();
 
   const handleSave = () => {
     if (validateForm()) {
@@ -26,6 +28,10 @@ export function Creator() {
       };
       setJobs((prev) => [...prev, newJob]);
       resetForm();
+      toast({
+        title: "Job Saved",
+        description: "Your job has been saved as a draft.",
+      });
     }
   };
 
@@ -46,6 +52,11 @@ export function Creator() {
     setJobs((prev) => [...prev, newJob]);
     resetForm();
     setShowSubmitDialog(false);
+    setActivePage("postedJobs");
+    toast({
+      title: "Job Submitted",
+      description: "Your job has been submitted successfully.",
+    });
   };
 
   const resetForm = () => {
@@ -56,11 +67,37 @@ export function Creator() {
   const validateForm = () => {
     const requiredFields = ["heading", "description", "task", "ustarPoints"];
     const newErrors = requiredFields.reduce((acc, field) => {
-      acc[field] = !formData[field].trim();
+      if (field === "ustarPoints") {
+        acc[field] =
+          !formData[field].trim() ||
+          !/^[0-9]+$/.test(formData[field]) ||
+          parseInt(formData[field], 10) < 0;
+      } else {
+        acc[field] = !formData[field].trim();
+      }
       return acc;
     }, {});
     setErrors(newErrors);
-    return !Object.values(newErrors).some(Boolean);
+    if (Object.values(newErrors).some(Boolean)) {
+      toast({
+        title: "Validation Error",
+        description:
+          "Please fill in all required fields with valid values. USTAR Points must be a non-negative integer.",
+        variant: "destructive",
+      });
+      return false;
+    }
+    return true;
+  };
+
+  const handleUpdateJob = (updatedJob) => {
+    setJobs((prevJobs) =>
+      prevJobs.map((job) => (job.id === updatedJob.id ? updatedJob : job))
+    );
+    toast({
+      title: "Job Updated",
+      description: "Your job has been updated successfully.",
+    });
   };
 
   return (
@@ -78,7 +115,7 @@ export function Creator() {
             setErrors={setErrors}
           />
         ) : (
-          <JobList jobs={jobs} />
+          <JobList jobs={jobs} onUpdateJob={handleUpdateJob} />
         )}
       </main>
 

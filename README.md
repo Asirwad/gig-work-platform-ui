@@ -48,9 +48,10 @@ Follow these steps to set up the project on your local machine:
    ```
 
 5. Open your browser and visit `http://localhost:3000` to view the application.
-6. There are two views #Creator - Manager Flow
-                       #Worker - User Flow 
-      To Toggle between Worker and Creator, Change the userRole in App.jsx to either worker or creator accordingly.
+6. There are two views
+   - #Creator - Manager Flow
+   - #Worker - User Flow 
+   - To Toggle between Worker and Creator, Change the userRole in App.jsx to either worker or creator accordingly.
 
 ## Project Structure
 

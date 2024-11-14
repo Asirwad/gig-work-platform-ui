@@ -100,6 +100,17 @@ export function Creator() {
     });
   };
 
+  const handleSubmitJob = (updatedJob) => {
+    setJobs((prevJobs) =>
+      prevJobs.map((job) => (job.id === updatedJob.id ? updatedJob : job))
+    );
+    toast({
+      title: "Job Submitted",
+      description: "Your job has been submitted successfully.",
+    });
+    setActivePage("postedJobs");
+  };
+
   return (
     <div className="min-h-screen bg-[#f5f3ef]">
       <Header activePage={activePage} setActivePage={setActivePage} />
@@ -115,7 +126,11 @@ export function Creator() {
             setErrors={setErrors}
           />
         ) : (
-          <JobList jobs={jobs} onUpdateJob={handleUpdateJob} />
+          <JobList
+            jobs={jobs}
+            onUpdateJob={handleUpdateJob}
+            onSubmitJob={handleSubmitJob}
+          />
         )}
       </main>
 

@@ -5,6 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 // Dummy data for interested users
 const dummyUsers = [
@@ -34,8 +41,9 @@ const dummyUsers = [
   },
 ];
 
-export function ViewJobDetails({ job, onBack, onSave }) {
+export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
   const [editedJob, setEditedJob] = useState(job);
+  const [showSubmitDialog, setShowSubmitDialog] = useState(false);
   const isDraft = job.status === "draft";
 
   const handleInputChange = (e) => {
@@ -48,6 +56,15 @@ export function ViewJobDetails({ job, onBack, onSave }) {
 
   const handleSave = () => {
     onSave(editedJob);
+  };
+
+  const handleSubmit = () => {
+    setShowSubmitDialog(true);
+  };
+
+  const confirmSubmit = () => {
+    onSubmit({ ...editedJob, status: "submitted" });
+    setShowSubmitDialog(false);
   };
 
   const getStatusColor = (status) => {
@@ -117,15 +134,23 @@ export function ViewJobDetails({ job, onBack, onSave }) {
                 value={editedJob.ustarPoints}
                 onChange={handleInputChange}
                 className="mt-1"
+                type="number"
+                min="0"
               />
             </div>
 
-            <div className="flex justify-end">
+            <div className="flex justify-end space-x-4">
               <Button
                 onClick={handleSave}
                 className="bg-teal-600 text-white hover:bg-teal-700"
               >
                 Save Changes
+              </Button>
+              <Button
+                onClick={handleSubmit}
+                className="bg-blue-600 text-white hover:bg-blue-700"
+              >
+                Submit
               </Button>
             </div>
           </div>
@@ -227,6 +252,31 @@ export function ViewJobDetails({ job, onBack, onSave }) {
           </div>
         )}
       </div>
+
+      <Dialog open={showSubmitDialog} onOpenChange={setShowSubmitDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirm Submission</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to submit this job?
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-end space-x-2 mt-4">
+            <Button
+              variant="outline"
+              onClick={() => setShowSubmitDialog(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={confirmSubmit}
+              className="bg-blue-600 text-white hover:bg-blue-700"
+            >
+              Submit
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

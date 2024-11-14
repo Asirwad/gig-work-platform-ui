@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ViewJobDetails } from "./ViewJobDetails";
 
-export function JobList({ jobs }) {
+export function JobList({ jobs, onUpdateJob, onSubmitJob }) {
   const [selectedJob, setSelectedJob] = useState(null);
 
   const handleJobSelect = (job) => {
@@ -26,6 +26,7 @@ export function JobList({ jobs }) {
         job={selectedJob}
         onBack={handleBackFromJobDetails}
         onSave={handleSaveJobDetails}
+        onSubmit={onSubmitJob}
       />
     );
   }

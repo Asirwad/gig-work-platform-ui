@@ -2,8 +2,16 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Bell, Search } from "lucide-react";
+import { Star, Bell, Search } from "lucide-react";
 import axios from "axios";
 
 export function GigListingPage({
@@ -12,6 +20,8 @@ export function GigListingPage({
   onNotificationClick,
   notifications,
 }) {
+  const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false);
+  const [selectedGig, setSelectedGig] = useState(null);
   const [gigs, setGigs] = useState([]);
   const [filteredGigs, setFilteredGigs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,6 +29,23 @@ export function GigListingPage({
   const [error, setError] = useState("");
 
   const user_id = '675712e7450aead0d3a404f7';
+
+  const handleViewClick = (gig) => {
+    setSelectedGig(gig);
+    setIsDisclaimerOpen(true);
+  };
+
+  const handleDisclaimerClose = () => {
+    setIsDisclaimerOpen(false);
+    setSelectedGig(null);
+  };
+
+  const handleDisclaimerAccept = () => {
+    setIsDisclaimerOpen(false);
+    if (selectedGig) {
+      onViewGig(selectedGig);
+    }
+  };
 
   useEffect(() => {
     const fetchGigs = async () => {
@@ -127,6 +154,10 @@ export function GigListingPage({
                 <CardTitle className="text-xl font-bold">
                   {highlightText(gig.title, searchTerm)}
                 </CardTitle>
+                <Button variant="ghost" size="icon" className="text-yellow-500">
+                  <Star className="h-4 w-4" />
+                  <span className="sr-only">Star</span>
+                </Button>
               </CardHeader>
               <CardContent className="flex-grow flex flex-col justify-between">
                 <div>
@@ -137,20 +168,56 @@ export function GigListingPage({
                 </div>
                 <Button
                   className="w-full bg-teal-600 hover:bg-teal-700 mt-auto"
-                  onClick={() => onViewGig(gig)}
+                  onClick={() => handleViewClick(gig)}
                 >
                   View
+                  <span className="ml-2">→</span>
                 </Button>
               </CardContent>
             </Card>
           ))}
         </div>
       </main>
+      <Dialog open={isDisclaimerOpen} onOpenChange={setIsDisclaimerOpen}>
+        <DialogContent className="bg-gray-100 sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle className="text-teal-600 text-xl">
+              Disclaimer
+            </DialogTitle>
+          </DialogHeader>
+          <DialogDescription className="text-gray-700 text-center">
+            By engaging in any work opportunities through this portal, you
+            acknowledge and agree that your participation is entirely voluntary
+            and will not interfere with your regular duties or obligations at
+            your current place of employment. It is your sole responsibility to
+            ensure that your involvement in these projects does not conflict
+            with any employment agreements, company policies, or contractual
+            obligations. The portal and its administrators assume no
+            responsibility for any consequences arising from your work
+            commitments outside of your primary job.
+          </DialogDescription>
+          <DialogFooter>
+            <Button
+              className="w-full bg-teal-600 hover:bg-teal-700"
+              onClick={handleDisclaimerAccept}
+            >
+              OK
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
 
 GigListingPage.propTypes = {
+  gigs: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   onViewGig: PropTypes.func.isRequired,
   onNavigate: PropTypes.func.isRequired,
   onNotificationClick: PropTypes.func.isRequired,

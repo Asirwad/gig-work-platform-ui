@@ -4,6 +4,7 @@ import { JobForm } from "./creator/JobForm";
 import { JobList } from "./creator/JobList";
 import { SubmitDialog } from "./creator/SubmitDialog";
 import { useToast } from "@/components/ui/use-toast";
+import axios from "axios";
 
 export function Creator() {
   const [activePage, setActivePage] = useState("addJobs");
@@ -17,6 +18,12 @@ export function Creator() {
   });
   const [errors, setErrors] = useState({});
   const { toast } = useToast();
+
+  const uStarPointsMapping = new Map();
+  uStarPointsMapping.set("1", "RisingStar");
+  uStarPointsMapping.set("2", "ShiningStar");
+  uStarPointsMapping.set("3", "SuperStar");
+  uStarPointsMapping.set("4", "NovaStar");
 
   const handleSave = () => {
     if (validateForm()) {
@@ -42,7 +49,8 @@ export function Creator() {
     }
   };
 
-  const confirmSubmit = () => {
+  const confirmSubmit = async () => {
+    console.log(formData);
     const newJob = {
       ...formData,
       id: Date.now(),
@@ -52,11 +60,35 @@ export function Creator() {
     setJobs((prev) => [...prev, newJob]);
     resetForm();
     setShowSubmitDialog(false);
-    setActivePage("postedJobs");
-    toast({
-      title: "Job Submitted",
-      description: "Your job has been submitted successfully.",
-    });
+
+    try {
+      const payload = {
+        "topic": formData.heading,
+        "description": formData.description,
+        "title": formData.task,
+        "ustar_category": uStarPointsMapping.get(formData.ustarPoints),
+        "email": "675712e7450aead0d3a404f7@email.com",
+      };
+      console.log(payload);
+      const response = await axios.post("http://localhost:8089/api/v1/create_gig", payload, 
+        {
+        headers:{
+          "Content-Type": "application/json",
+          user_id: "675712e7450aead0d3a404f7"
+        }
+      })
+      toast({
+        title: "Job Submitted",
+        description: "Your job has been submitted successfully.",
+      });
+      setActivePage("postedJobs");
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "Job Not Submitted",
+        description: "Internal Error🤷‍♂️",
+      });
+    }
   };
 
   const resetForm = () => {

@@ -70,7 +70,7 @@ export function Creator() {
         "email": "675712e7450aead0d3a404f7@email.com",
       };
       console.log(payload);
-      const response = await axios.post("http://localhost:8089/api/v1/create_gig", payload, 
+      await axios.post("http://localhost:8089/api/v1/create_gig", payload, 
         {
         headers:{
           "Content-Type": "application/json",

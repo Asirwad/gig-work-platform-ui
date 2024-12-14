@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Header } from "./creator/Header";
 import { JobForm } from "./creator/JobForm";
 import { JobList } from "./creator/JobList";
@@ -18,6 +18,26 @@ export function Creator() {
   });
   const [errors, setErrors] = useState({});
   const { toast } = useToast();
+
+  useEffect(() => {
+    const fetchGigs = async () => {
+      try {
+        //setLoading(true);
+        const response = await axios.get("http://localhost:8089/api/v1/gigs", {
+          headers: {
+            "user_id": "675712e7450aead0d3a404f7"
+          }
+        });
+        setJobs(response.data.gigs);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        //setLoading(false);
+      }
+    };
+
+    fetchGigs();
+  }, []);
 
   const uStarPointsMapping = new Map();
   uStarPointsMapping.set("1", "RisingStar");

@@ -97,13 +97,14 @@ export function JobList({ jobs, onUpdateJob, onSubmitJob }) {
               className="bg-white text-teal-600 border-teal-600 hover:bg-teal-50"
               onClick={()=> handlePause(job._id)}
             >
-              Pause
+              {job.status === "paused" ? "Pause" : "Open"}
             </Button>
             <Button
               variant="outline"
               size="sm"
               className="bg-white text-red-600 border-red-600 hover:bg-red-50"
               onClick={()=> handleRevoke(job._id)}
+              disabled={job.status === "revoked"}
             >
               Revoke
             </Button>

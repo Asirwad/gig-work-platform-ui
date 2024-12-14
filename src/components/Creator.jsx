@@ -25,7 +25,7 @@ export function Creator() {
         //setLoading(true);
         const response = await axios.get("http://localhost:8089/api/v1/gigs", {
           headers: {
-            "user_id": "675712e7450aead0d3a404f7"
+            "user_id": "674df6a4aed3d7ff4a423727"
           }
         });
         setJobs(response.data.gigs);
@@ -94,7 +94,7 @@ export function Creator() {
         {
         headers:{
           "Content-Type": "application/json",
-          user_id: "675712e7450aead0d3a404f7"
+          user_id: "674df6a4aed3d7ff4a423727"
         }
       })
       toast({

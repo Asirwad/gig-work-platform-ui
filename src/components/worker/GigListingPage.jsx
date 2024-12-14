@@ -28,7 +28,7 @@ export function GigListingPage({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const user_id = '675712e7450aead0d3a404f7';
+  const user_id = '674df6a4aed3d7ff4a423727';
 
   const handleViewClick = (gig) => {
     setSelectedGig(gig);

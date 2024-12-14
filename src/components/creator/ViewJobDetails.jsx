@@ -46,6 +46,12 @@ export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
   const [showSubmitDialog, setShowSubmitDialog] = useState(false);
   const isDraft = job.status === "draft";
 
+  const reversedUStarMapping = new Map();
+  reversedUStarMapping.set("RisingStar", "1");
+  reversedUStarMapping.set("ShiningStar", "2");
+  reversedUStarMapping.set("SuperStar", "3");
+  reversedUStarMapping.set("NovaStar", "4");
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditedJob((prev) => ({
@@ -165,7 +171,7 @@ export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
                 </span>
                 <span className="text-sm text-gray-500">•</span>
                 <span className="text-sm text-gray-500">
-                  USTAR Points: {job.ustarPoints}
+                  USTAR Points: {reversedUStarMapping.get(job.ustar_category)}
                 </span>
               </div>
             </div>
@@ -245,7 +251,7 @@ export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
               <TabsContent value="task" className="mt-6">
                 <div className="prose max-w-none">
                   <h3 className="text-lg font-semibold mb-4">Task Details</h3>
-                  <p>{job.task}</p>
+                  <p>{job.title}</p>
                 </div>
               </TabsContent>
             </Tabs>

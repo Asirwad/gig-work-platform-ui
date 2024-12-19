@@ -58,10 +58,10 @@ export function GigDetailsPage({
             </Button>
             <h1 className="text-2xl font-bold">GIG</h1>
             <div className="text-right">
-              <p>Posted By: {gig.postedBy}</p>
-              <p>UID: {gig.uid}</p>
-              <p>Role: {gig.role}</p>
-              <a href={gig.teamsLink} className="text-blue-500 hover:underline">
+              <p>Posted By: {gig.postedBy}Kilas Natty</p>
+              <p>UID: {gig.uid} 285571</p>
+              <p>Role: {gig.role} Software Architect</p>
+              <a href={gig.teamsLink} className="text-blue-500 hover:underline hover:cursor-pointer">
                 Teams link (click this link to chat with the Job Owner)
               </a>
             </div>
@@ -80,7 +80,7 @@ export function GigDetailsPage({
               </Button>
             ) : (
               <Button
-                className="bg-teal-600 hover:bg-teal-700"
+                className="bg-teal-600 hover:bg-teal-700 text-white"
                 onClick={handleShowInterest}
               >
                 Show Interest

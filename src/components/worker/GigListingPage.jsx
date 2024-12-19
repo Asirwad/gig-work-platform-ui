@@ -28,7 +28,7 @@ export function GigListingPage({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const user_id = '674df6a4aed3d7ff4a423727';
+  const user_id = '675712e7450aead0d3a404f7';
 
   const handleViewClick = (gig) => {
     setSelectedGig(gig);
@@ -152,7 +152,7 @@ export function GigListingPage({
             <Card key={gig.id} className="bg-white flex flex-col h-full">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-xl font-bold">
-                  {highlightText(gig.title, searchTerm)}
+                  {highlightText(gig.topic, searchTerm)}
                 </CardTitle>
                 <Button variant="ghost" size="icon" className="text-yellow-500">
                   <Star className="h-4 w-4" />
@@ -167,7 +167,7 @@ export function GigListingPage({
                   </p>
                 </div>
                 <Button
-                  className="w-full bg-teal-600 hover:bg-teal-700 mt-auto"
+                  className="w-full bg-teal-600 hover:bg-teal-700 mt-auto text-white"
                   onClick={() => handleViewClick(gig)}
                 >
                   View
@@ -198,7 +198,7 @@ export function GigListingPage({
           </DialogDescription>
           <DialogFooter>
             <Button
-              className="w-full bg-teal-600 hover:bg-teal-700"
+              className="w-full bg-teal-600 hover:bg-teal-700 text-white"
               onClick={handleDisclaimerAccept}
             >
               OK

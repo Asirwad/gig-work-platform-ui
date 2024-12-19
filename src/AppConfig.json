@@ -1,0 +1,6 @@
+{
+    "port": 4000,
+    "apiBaseUrl": "",
+    "environment": "development",
+    "logLevel": "info"
+}

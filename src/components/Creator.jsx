@@ -26,7 +26,7 @@ export function Creator() {
         //setLoading(true);
         const response = await axios.get(appConfig.apiBaseUrl + "/gigs", {
           headers: {
-            "user_id": "675712e7450aead0d3a404f7"
+            "user_id": appConfig.hardCodedUserId
           }
         });
         setJobs(response.data.gigs);
@@ -88,14 +88,14 @@ export function Creator() {
         "description": formData.description,
         "title": formData.task,
         "ustar_category": uStarPointsMapping.get(formData.ustarPoints),
-        "email": "675712e7450aead0d3a404f7@email.com",
+        "email": appConfig.hardCodedUserId+"@email.com",
       };
       console.log(payload);
       await axios.post(appConfig.apiBaseUrl +"/create_gig", payload, 
         {
         headers:{
           "Content-Type": "application/json",
-          user_id: "675712e7450aead0d3a404f7"
+          user_id: appConfig.hardCodedUserId
         }
       })
       toast({

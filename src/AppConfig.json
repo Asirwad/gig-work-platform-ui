@@ -1,6 +1,6 @@
 {
     "port": 4000,
-    "apiBaseUrl": "",
+    "apiBaseUrl": "http://localhost:8089/api/v1",
     "environment": "development",
     "logLevel": "info"
 }

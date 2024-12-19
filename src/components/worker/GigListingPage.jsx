@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Star, Bell, Search } from "lucide-react";
 import axios from "axios";
+import appConfig from "../../AppConfig.json";
 
 export function GigListingPage({
   onViewGig,
@@ -51,7 +52,7 @@ export function GigListingPage({
     const fetchGigs = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:8089/api/v1/gigs", {
+        const response = await axios.get(appConfig.apiBaseUrl + "/gigs", {
           headers: {
             "user_id": user_id
           }

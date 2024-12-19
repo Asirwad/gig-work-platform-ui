@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ViewJobDetails } from "./ViewJobDetails";
 import axios from "axios";
+import appConfig from "../../AppConfig.json";
 
 export function JobList({ jobs, onUpdateJob, onSubmitJob }) {
   const [selectedJob, setSelectedJob] = useState(null);
@@ -25,7 +26,7 @@ export function JobList({ jobs, onUpdateJob, onSubmitJob }) {
     console.log(payload);
     try{
         await axios.patch(
-          "http://localhost:8089/api/v1/update_gig", 
+          appConfig.apiBaseUrl + "/update_gig", 
           payload,
           {
             headers: {

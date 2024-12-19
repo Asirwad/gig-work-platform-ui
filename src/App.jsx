@@ -4,7 +4,7 @@ import "./index.css";
 import { Creator } from "./components/Creator";
 
 export default function App() {
-  const [userRole, setUserRole] = useState("worker");
+  const [userRole, setUserRole] = useState("creator");
 
   return (
     <div className="app-container">

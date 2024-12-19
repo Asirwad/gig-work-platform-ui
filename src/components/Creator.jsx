@@ -5,6 +5,7 @@ import { JobList } from "./creator/JobList";
 import { SubmitDialog } from "./creator/SubmitDialog";
 import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
+import appConfig from "../AppConfig.json";
 
 export function Creator() {
   const [activePage, setActivePage] = useState("addJobs");
@@ -23,7 +24,7 @@ export function Creator() {
     const fetchGigs = async () => {
       try {
         //setLoading(true);
-        const response = await axios.get("http://localhost:8089/api/v1/gigs", {
+        const response = await axios.get(appConfig.apiBaseUrl + "/gigs", {
           headers: {
             "user_id": "675712e7450aead0d3a404f7"
           }
@@ -90,7 +91,7 @@ export function Creator() {
         "email": "675712e7450aead0d3a404f7@email.com",
       };
       console.log(payload);
-      await axios.post("http://localhost:8089/api/v1/create_gig", payload, 
+      await axios.post(appConfig.apiBaseUrl +"/create_gig", payload, 
         {
         headers:{
           "Content-Type": "application/json",

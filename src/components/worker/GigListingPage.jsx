@@ -57,6 +57,7 @@ export function GigListingPage({
             "user_id": user_id
           }
         });
+        console.log(response.data);
         setGigs(response.data.gigs);
         setFilteredGigs(response.data.gigs);
       } catch (err) {

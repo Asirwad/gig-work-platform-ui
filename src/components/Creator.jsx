@@ -6,6 +6,7 @@ import { SubmitDialog } from "./creator/SubmitDialog";
 import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
 import appConfig from "../AppConfig.json";
+// import gig from "../../../Gigworks/models/gig";
 
 export function Creator() {
   const [activePage, setActivePage] = useState("addJobs");
@@ -163,6 +164,12 @@ export function Creator() {
     });
     setActivePage("postedJobs");
   };
+
+  // const isInterested = () => {
+  //   if (activePage === "postedJobs") {
+  //     return jobs.some((job) => job.status === "interested");
+  //   }
+  // }
 
   return (
     <div className="min-h-screen bg-[#f5f3ef]">

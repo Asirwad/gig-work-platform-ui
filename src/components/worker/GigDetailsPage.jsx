@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/dialog";
 import { ArrowLeft } from "lucide-react";
 import { Header } from "./Header";
+import appconfig from '../../AppConfig.json'
+import axios from "axios";
 
 export function GigDetailsPage({
   gig,
@@ -27,9 +29,27 @@ export function GigDetailsPage({
   };
 
   const handleInterestConfirm = () => {
+    axios.post(appconfig.apiBaseUrl + '/express_interest', 
+      {
+      'gig_id': gig._id,},
+      {
+        headers: {
+        'user_id': appconfig.hardCodedUserId
+        }
+     }
+    )
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     setIsInterestPopupOpen(false);
     onShowInterest(gig);
   };
+
+  isInterested = gig.status === 'interested' ? true : false;
+  console.log(gig.status)
 
   const handleWithdrawInterest = () => {
     setIsWithdrawPopupOpen(true);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,39 +12,57 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import appConfig from "../../AppConfig.json";
+// import { data } from "autoprefixer";
+import axios from "axios";
+import { string } from "prop-types";
 
 // Dummy data for interested users
-const dummyUsers = [
-  {
-    id: 1,
-    name: "XYZ1",
-    uid: "XXXXXXXX1",
-    role: "XYZ",
-    status: "Completed",
-    teamsLink: "https://teams.microsoft.com/l/chat/0",
-  },
-  {
-    id: 2,
-    name: "XYZ2",
-    uid: "XXXXXXXX2",
-    role: "XYZ",
-    status: "Submitted",
-    teamsLink: "https://teams.microsoft.com/l/chat/1",
-  },
-  {
-    id: 3,
-    name: "XYZ3",
-    uid: "XXXXXXXX3",
-    role: "XYZ",
-    status: "Completed",
-    teamsLink: "https://teams.microsoft.com/l/chat/2",
-  },
-];
+// const dummyUsers = [
+//   {
+//     id: 1,
+//     name: "XYZ1",
+//     uid: "XXXXXXXX1",
+//     role: "XYZ",
+//     status: "Completed",
+//     teamsLink: "https://teams.microsoft.com/l/chat/0",
+//   },
+//   {
+//     id: 2,
+//     name: "XYZ2",
+//     uid: "XXXXXXXX2",
+//     role: "XYZ",
+//     status: "Submitted",
+//     teamsLink: "https://teams.microsoft.com/l/chat/1",
+//   },
+//   {
+//     id: 3,
+//     name: "XYZ3",
+//     uid: "XXXXXXXX3",
+//     role: "XYZ",
+//     status: "Completed",
+//     teamsLink: "https://teams.microsoft.com/l/chat/2",
+//   },
+// ];
+
+// class users{
+//     id: Number,
+//     name: String,
+//     uid: String,
+//     role: String,
+//     status: String,
+//     teamsLink: String,
+// }
 
 export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
   const [editedJob, setEditedJob] = useState(job);
   const [showSubmitDialog, setShowSubmitDialog] = useState(false);
+  const [interestedUsers, setInterestedUsers] = useState([]);
+  const [message, setMessage] = useState('');
+  const [listEmpty, setListEmpty] = useState(false);
   const isDraft = job.status === "draft";
+
+  const user_id = appConfig.hardCodedUserId;
 
   const reversedUStarMapping = new Map();
   reversedUStarMapping.set("RisingStar", "1");
@@ -77,6 +95,31 @@ export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
     return status === "Completed" ? "text-yellow-500" : "text-blue-500";
   };
 
+
+  useEffect(() => {
+    // Fetch interested users from the API
+    const fetchInterestedUsers = async () => {
+      try {
+        const response = await axios.get(
+          `${appConfig.apiBaseUrl}/gig/${editedJob._id}/interested`, {
+            headers: {
+              'user_id': user_id
+            }
+          }
+        );
+        console.log(response.data.interestedUsers);
+        setListEmpty(false);
+        setInterestedUsers(response.data.interestedUsers);
+      } catch (error) {
+        console.error("Error fetching interested users:", error);
+        setListEmpty(true);
+        setMessage(error.response.data.message);
+      }
+    };
+
+    fetchInterestedUsers();
+  }, []);
+  
   return (
     <div className="min-h-screen bg-[#f5f3ef] p-6">
       <div className="max-w-4xl mx-auto">
@@ -184,18 +227,18 @@ export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
               </TabsList>
 
               <TabsContent value="users" className="mt-6">
-                {dummyUsers.length > 0 ? (
+                {!listEmpty ? (
                   <div className="space-y-4">
-                    {dummyUsers.map((user) => (
+                    {interestedUsers.map((user) => (
                       <div key={user.id} className="bg-gray-50 rounded-lg p-4">
                         <div className="flex justify-between items-start">
                           <div>
                             <p className="font-medium">Name: {user.name}</p>
                             <p className="text-sm text-gray-500">
-                              UID: {user.uid}
+                              UID: {user.user_id}
                             </p>
                             <p className="text-sm text-gray-500">
-                              Role: {user.role}
+                              Role: {user.role}  dummy role
                             </p>
                             <p className="text-sm">
                               Status:{" "}
@@ -211,7 +254,7 @@ export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
                                 target="_blank"
                                 rel="noopener noreferrer"
                               >
-                                {user.teamsLink}
+                                {user.teamsLink} https://teams.microsoft.com/l/chat/1 (dummy link)
                               </a>
                             </div>
                           </div>
@@ -236,7 +279,7 @@ export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
                   </div>
                 ) : (
                   <p className="text-center text-gray-500 py-8">
-                    No one has shown interest in this job yet.
+                    {message}
                   </p>
                 )}
               </TabsContent>

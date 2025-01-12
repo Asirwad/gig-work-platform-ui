@@ -1,11 +1,61 @@
-import React from "react";
+import {React, useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Star } from "lucide-react";
 import { Header } from "./Header";
+import appConfig from "../../AppConfig.json";
+import axios from "axios";
 
-export function MyJobsPage({ interestedGigs, onViewGig, onNavigate }) {
+export function MyJobsPage({ onViewGig, onNavigate }) {
+
+  const [interestedGigs, setinterestedGigs] = useState([]);
+  const [gigs, setGigs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const user_id = appConfig.hardCodedUserId;
+
+  useEffect(() => {
+    const fetchInterestedGigs = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(appConfig.apiBaseUrl + "/intrested_gigs", {
+          headers: {
+            "user_id": user_id
+          }
+        });
+        console.log(response.data);
+        setinterestedGigs(response.data.gigs);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchGigs = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(appConfig.apiBaseUrl + "/gigs", {
+          headers: {
+            "user_id": user_id
+          }
+        });
+        console.log(response.data);
+        setGigs(response.data.gigs);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchGigs();
+    fetchInterestedGigs();
+  }, []);
+  
+
   return (
     <div className="min-h-screen bg-gray-100">
       <Header
@@ -31,10 +81,10 @@ export function MyJobsPage({ interestedGigs, onViewGig, onNavigate }) {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {interestedGigs.map((gig) => (
-              <Card key={gig.id} className="bg-white flex flex-col h-full">
+              <Card key={gig.gig_id} className="bg-white flex flex-col h-full">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-xl font-bold">
-                    {gig.title}
+                  {gigs.find(g => g._id === gig.gig_id)?.topic || 'Title'}
                   </CardTitle>
                   <Button
                     variant="ghost"
@@ -49,7 +99,7 @@ export function MyJobsPage({ interestedGigs, onViewGig, onNavigate }) {
                   <div>
                     <h3 className="font-semibold mb-2">Description</h3>
                     <p className="text-sm text-gray-600 mb-4">
-                      {gig.description}
+                      {gigs.find(g => g._id === gig.gig_id)?.description || 'Description'}
                     </p>
                     <p className="text-sm font-semibold mb-2">
                       {gig.status === "approved"
@@ -63,7 +113,7 @@ export function MyJobsPage({ interestedGigs, onViewGig, onNavigate }) {
                         ? "bg-teal-600 hover:bg-teal-700"
                         : "bg-gray-400"
                     } mt-auto`}
-                    onClick={() => onViewGig(gig)}
+                    onClick={() => onViewGig(gigs.find(g => g._id === gig.gig_id))}
                   >
                     View
                   </Button>

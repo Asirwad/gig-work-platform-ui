@@ -3,6 +3,6 @@
     "apiBaseUrl": "http://localhost:8089/api/v1",
     "environment": "development",
     "logLevel": "info",
-    "hardCodedUserId": "675712e7450aead0d3a404f7",
-    "currentUserRole": "creator"
+    "hardCodedUserId": "674df6a4aed3d7ff4a42372c",
+    "currentUserRole": "worker"
 }

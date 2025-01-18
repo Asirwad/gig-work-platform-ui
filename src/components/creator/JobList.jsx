@@ -65,7 +65,7 @@ export function JobList({ jobs, onUpdateJob, onSubmitJob }) {
 
   return (
     <div className="max-w-3xl mx-auto space-y-4">
-      {jobs.map((job) => (
+      {jobs.filter(job => job.status !== 'revoked' && job.status !== 'awaiting_admin_approval').map((job) => (
         <div key={job.id} className="bg-white rounded-lg p-6 shadow-sm">
           <div className="flex justify-between items-start mb-4">
             <div>
@@ -105,7 +105,7 @@ export function JobList({ jobs, onUpdateJob, onSubmitJob }) {
               size="sm"
               className="bg-white text-red-600 border-red-600 hover:bg-red-50"
               onClick={()=> handleRevoke(job._id)}
-              disabled={job.status === "revoked"}
+              // disabled={job.status === "revoked"}
             >
               Revoke
             </Button>

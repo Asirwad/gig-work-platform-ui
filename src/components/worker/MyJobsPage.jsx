@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Star } from "lucide-react";
 import { Header } from "./Header";
 import appConfig from "../../AppConfig.json";
+import { getUStarPoint } from "../../lib/utils"
 import axios from "axios";
 
 export function MyJobsPage({ onViewGig, onNavigate }) {
@@ -17,10 +18,10 @@ export function MyJobsPage({ onViewGig, onNavigate }) {
   const user_id = appConfig.hardCodedUserId;
 
   useEffect(() => {
-    const fetchInterestedGigs = async () => {
+    const fetchInterestedGigs = async (gig_id) => {
       try {
         setLoading(true);
-        const response = await axios.get(appConfig.apiBaseUrl + "/intrested_gigs", {
+        const response = await axios.get(appConfig.apiBaseUrl + '/intrested_gigs', {
           headers: {
             "user_id": user_id
           }
@@ -34,24 +35,7 @@ export function MyJobsPage({ onViewGig, onNavigate }) {
       }
     };
 
-    const fetchGigs = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(appConfig.apiBaseUrl + "/gigs", {
-          headers: {
-            "user_id": user_id
-          }
-        });
-        console.log(response.data);
-        setGigs(response.data.gigs);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    fetchGigs();
+
     fetchInterestedGigs();
   }, []);
   
@@ -80,11 +64,11 @@ export function MyJobsPage({ onViewGig, onNavigate }) {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {interestedGigs.map((gig) => (
-              <Card key={gig.gig_id} className="bg-white flex flex-col h-full">
+            {interestedGigs.filter(gig => gig.status !== 'revoked').map((gig) => (
+              <Card key={gig._id} className="bg-white flex flex-col h-full">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-xl font-bold">
-                  {gigs.find(g => g._id === gig.gig_id)?.topic || 'Title'}
+                  {gig.topic}
                   </CardTitle>
                   <Button
                     variant="ghost"
@@ -92,14 +76,14 @@ export function MyJobsPage({ onViewGig, onNavigate }) {
                     className="text-yellow-500"
                   >
                     <Star className="h-4 w-4" />
-                    <span className="sr-only">Star</span>
+                    <span className="ml-1">{getUStarPoint.get(gig.ustar_category)}</span>
                   </Button>
                 </CardHeader>
                 <CardContent className="flex-grow flex flex-col justify-between">
                   <div>
                     <h3 className="font-semibold mb-2">Description</h3>
                     <p className="text-sm text-gray-600 mb-4">
-                      {gigs.find(g => g._id === gig.gig_id)?.description || 'Description'}
+                      {gig.description}
                     </p>
                     <p className="text-sm font-semibold mb-2">
                       {gig.status === "approved"
@@ -113,7 +97,7 @@ export function MyJobsPage({ onViewGig, onNavigate }) {
                         ? "bg-teal-600 hover:bg-teal-700"
                         : "bg-gray-400"
                     } mt-auto`}
-                    onClick={() => onViewGig(gigs.find(g => g._id === gig.gig_id))}
+                    onClick={() => onViewGig(gig)}
                   >
                     View
                   </Button>

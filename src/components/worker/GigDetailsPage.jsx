@@ -48,7 +48,7 @@ export function GigDetailsPage({
     onShowInterest(gig);
   };
 
-  isInterested = gig.status === 'interested' ? true : false;
+  isInterested = gig.status === 'interested' || 'Open'? true : false;
   console.log(gig.status)
 
   const handleWithdrawInterest = () => {

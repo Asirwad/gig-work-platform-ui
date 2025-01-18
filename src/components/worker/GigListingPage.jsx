@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Star, Bell, Search } from "lucide-react";
 import axios from "axios";
 import appConfig from "../../AppConfig.json";
+import { getUStarPoint } from "../../lib/utils";
 
 export function GigListingPage({
   onViewGig,
@@ -158,7 +159,7 @@ export function GigListingPage({
                 </CardTitle>
                 <Button variant="ghost" size="icon" className="text-yellow-500">
                   <Star className="h-4 w-4" />
-                  <span className="sr-only">Star</span>
+                  <span className="ml-1">{getUStarPoint.get(gig.ustar_category)}</span>
                 </Button>
               </CardHeader>
               <CardContent className="flex-grow flex flex-col justify-between">

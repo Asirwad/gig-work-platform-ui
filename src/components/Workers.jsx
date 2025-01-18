@@ -84,7 +84,7 @@ export default function Workers() {
   };
 
   const isInterestedInGig = (gig) => {
-    return interestedGigs.some((g) => g.id === gig.id);
+    return interestedGigs.some((g) => g._id === gig._id);
   };
 
   return (

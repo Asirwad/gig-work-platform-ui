@@ -9,9 +9,9 @@ export default function App() {
 
   return (
     <div className="app-container">
-      {userRole === "creator" ? (
+      {userRole === "manager" ? (
         <Creator />
-      ) : userRole === "worker" ? (
+      ) : userRole === "user" ? (
         <Workers />
       ) : null}
     </div>

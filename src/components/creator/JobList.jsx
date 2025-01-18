@@ -60,7 +60,7 @@ export function JobList({ jobs, onUpdateJob, onSubmitJob }) {
     );
   }
 
-  const handlePause = (gigId) => updateGigStatus(gigId, "paused");
+  const handlePause = (gigId, status) => updateGigStatus(gigId, status);
   const handleRevoke = (gigId) => updateGigStatus(gigId, "revoked");
 
   return (
@@ -96,9 +96,9 @@ export function JobList({ jobs, onUpdateJob, onSubmitJob }) {
               variant="outline"
               size="sm"
               className="bg-white text-teal-600 border-teal-600 hover:bg-teal-50"
-              onClick={()=> handlePause(job._id)}
+              onClick={()=> handlePause(job._id, job.status === "paused" ? "Open" : "paused")}
             >
-              {job.status === "paused" ? "Pause" : "Open"}
+              {job.status === "paused" ? "Open" : "Pause"}
             </Button>
             <Button
               variant="outline"

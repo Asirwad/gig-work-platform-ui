@@ -4,15 +4,10 @@ import { ViewJobDetails } from "./ViewJobDetails";
 import axios from "axios";
 import appConfig from "../../AppConfig.json";
 import { motion } from "framer-motion";
+import { getUStarPoint } from "../../lib/utils";
 
 export function JobList({ jobs, onUpdateJob, onSubmitJob }) {
   const [selectedJob, setSelectedJob] = useState(null);
-
-  const reversedUStarMapping = new Map();
-  reversedUStarMapping.set("RisingStar", "1");
-  reversedUStarMapping.set("ShiningStar", "2");
-  reversedUStarMapping.set("SuperStar", "3");
-  reversedUStarMapping.set("NovaStar", "4");
 
   const handleJobSelect = (job) => {
     setSelectedJob(job);
@@ -66,7 +61,7 @@ export function JobList({ jobs, onUpdateJob, onSubmitJob }) {
 
   return (
     <div className="max-w-3xl mx-auto space-y-4">
-      {jobs.filter(job => job.status !== 'revoked' && job.status !== 'awaiting_admin_approval').map((job, index) => (
+      {jobs.filter(job => job.status !== 'revoked').map((job, index) => (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -85,7 +80,7 @@ export function JobList({ jobs, onUpdateJob, onSubmitJob }) {
             <div className="flex items-center space-x-2">
               <span className="text-sm">USTAR</span>
               <div className="h-6 w-6 rounded-full border flex items-center justify-center">
-                {reversedUStarMapping.get(job.ustar_category)}
+                {getUStarPoint.get(job.ustar_category)}
               </div>
             </div>
           </div>

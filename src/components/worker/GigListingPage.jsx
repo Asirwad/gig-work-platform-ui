@@ -149,6 +149,7 @@ export function GigListingPage({
           </div>
         </div>
       </header>
+      
       <main className="container mx-auto px-4 py-8">
         { gigs.length === 0 && (
           <div className="text-center mt-6 text-2xl text-teal-600 font-semibold ">No gigs available.</div>

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ViewJobDetails } from "./ViewJobDetails";
 import axios from "axios";
 import appConfig from "../../AppConfig.json";
+import { motion } from "framer-motion";
 
 export function JobList({ jobs, onUpdateJob, onSubmitJob }) {
   const [selectedJob, setSelectedJob] = useState(null);
@@ -65,8 +66,14 @@ export function JobList({ jobs, onUpdateJob, onSubmitJob }) {
 
   return (
     <div className="max-w-3xl mx-auto space-y-4">
-      {jobs.filter(job => job.status !== 'revoked' && job.status !== 'awaiting_admin_approval').map((job) => (
-        <div key={job.id} className="bg-white rounded-lg p-6 shadow-sm">
+      {jobs.filter(job => job.status !== 'revoked' && job.status !== 'awaiting_admin_approval').map((job, index) => (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: index * 0.15 }}
+        
+        >
+        <div key={job.id} className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md">
           <div className="flex justify-between items-start mb-4">
             <div>
               <h3 className="text-lg font-semibold">{job.topic}</h3>
@@ -111,6 +118,7 @@ export function JobList({ jobs, onUpdateJob, onSubmitJob }) {
             </Button>
           </div>
         </div>
+        </motion.div>
       ))}
       {jobs.length === 0 && (
         <p className="text-center text-gray-500">No jobs posted yet.</p>

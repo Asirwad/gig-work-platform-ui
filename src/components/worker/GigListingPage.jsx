@@ -11,7 +11,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Star, Bell, Search } from "lucide-react";
+import { Star, Bell, Search, UserCircle2 } from "lucide-react";
 import axios from "axios";
 import appConfig from "../../AppConfig.json";
 import { getUStarPoint } from "../../lib/utils";
@@ -21,6 +21,7 @@ export function GigListingPage({
   onNavigate,
   onNotificationClick,
   notifications,
+  activePage
 }) {
   const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false);
   const [selectedGig, setSelectedGig] = useState(null);
@@ -110,21 +111,12 @@ export function GigListingPage({
   return (
     <div className="min-h-screen bg-gray-100">
       <header className="bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <span
-              className="text-xl font-semibold cursor-pointer text-blue-500"
-              onClick={() => onNavigate("jobs")}
-            >
-              Jobs
-            </span>
-            <span
-              className="text-xl font-semibold cursor-pointer text-gray-700"
-              onClick={() => onNavigate("myJobs")}
-            >
-              My Jobs
-            </span>
-            <div className="relative">
+        <div className="max-w-screen-xl mx-auto flex items-center justify-between px-4 py-4">
+          <div className="flex items-center gap-4">
+          <a href="/" className="text-lg font-semibold text-teal-600 uppercase">
+            GIG WORKS
+          </a>
+          <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
               <Input
                 type="text"
@@ -133,19 +125,35 @@ export function GigListingPage({
                 value={searchTerm}
                 onChange={handleSearch}
               />
-            </div>
+          </div>            
           </div>
           <div className="flex items-center space-x-4">
-            <Bell
-              className="text-gray-600 cursor-pointer"
-              onClick={onNotificationClick}
-            />
-            <div className="flex items-center space-x-2">
-              <span>My profile</span>
-              <div className="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center text-white">
-                AB
-              </div>
-            </div>
+              <button
+                  className={`py-2 px-4 text-sm rounded border mr-0  bg-teal-600 text-white border-teal-600 hover:bg-teal-700 transition-all duration-300`}
+                  onClick={() => onNavigate("jobs")}
+                >
+                  Jobs
+                </button>
+                <button
+                  onClick={() => onNavigate("myJobs")}
+                  className={`py-2 px-4 text-sm rounded border ml-0 ${
+                    activePage === "myJobs"
+                      ? "bg-teal-600 text-white border-teal-600 hover:bg-teal-700"
+                      : "bg-gray-100 text-teal-600 border-gray-200"
+                  } transition-all duration-300`}
+                >
+                  My Jobs
+                </button>
+                <div className="relative flex items-center gap-4">
+                  <Bell 
+                    onClick={onNotificationClick}
+                    className="text-teal-600 text-xl cursor-pointer hover:text-teal-700 transition-colors"
+                  />
+                  <UserCircle2
+                    onClick={() => alert("Toggling logout")}
+                    className="text-teal-600 text-2xl cursor-pointer hover:text-teal-700 transition-colors"
+                  />
+                    </div>
           </div>
         </div>
       </header>

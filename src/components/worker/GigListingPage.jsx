@@ -58,9 +58,8 @@ export function GigListingPage({
             "user_id": user_id
           }
         });
-        console.log(response.data);
-        setGigs(response.data.gigs);
-        setFilteredGigs(response.data.gigs);
+        //console.log(response.data);
+        setGigs(response.data.gigs.filter((gig)=> gig.status !== 'revoked' && gig.status !== 'awaiting_admin_approval'));
       } catch (err) {
         setError(err.message);
       } finally {
@@ -69,6 +68,7 @@ export function GigListingPage({
     };
 
     fetchGigs();
+    setFilteredGigs(gigs);
   }, []);
 
   const handleSearch = (e) => {
@@ -150,8 +150,11 @@ export function GigListingPage({
         </div>
       </header>
       <main className="container mx-auto px-4 py-8">
+        { gigs.length === 0 && (
+          <div className="text-center mt-6 text-2xl text-teal-600 font-semibold ">No gigs available.</div>
+        )}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredGigs.map((gig) => (
+          {gigs.map((gig) => (
             <Card key={gig.id} className="bg-white flex flex-col h-full">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-xl font-bold">

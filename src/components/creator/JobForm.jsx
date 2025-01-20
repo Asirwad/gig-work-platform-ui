@@ -1,10 +1,7 @@
 import React from "react";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { motion } from 'framer-motion';
-import { ToastContainer, toast } from 'react-toastify';
 
 export function JobForm({
   formData,
@@ -14,19 +11,6 @@ export function JobForm({
   errors,
   setErrors,
 }) {
-  const uStarPointsMapping = new Map();
-    uStarPointsMapping.set("1", "RisingStar");
-    uStarPointsMapping.set("2", "ShiningStar");
-    uStarPointsMapping.set("3", "SuperStar");
-    uStarPointsMapping.set("4", "NovaStar");
-
-    // const [formData, setFormData] = useState({
-    //     heading: '',
-    //     description: '',
-    //     task: '',
-    //     ustarPoints: '1'
-    // });
-    // const [errors, setErrors] = useState({});
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -34,53 +18,6 @@ export function JobForm({
             ...formData,
             [name]: value
         });
-    };
-
-    // const handleSave = () => {
-    //     toast.info("Job saved")
-    // };
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     // Validation
-    //     const newErrors = {};
-    //     for (const field in formData) {
-    //         if (!formData[field]) {
-    //             newErrors[field] = 'This field is required';
-    //         }
-    //     }
-    //     if (Object.keys(newErrors).length === 0) {
-    //         try {
-    //             const payload = {
-    //                 topic: formData.heading,
-    //                 description: formData.description,
-    //                 title: formData.task,
-    //                 ustar_category: uStarPointsMapping.get(formData.ustarPoints),
-    //                 email: "admin@email.com"
-    //             };
-    //             await axios.post(appConfig.api.BASE_URL + "/create_gig", payload, {
-    //                 headers: {
-    //                     "Content-Type": "application/json",
-    //                     user_id: '675712e7450aead0d3a404f7'
-    //                 }
-    //             });
-    //             toast.success("Job submitted successfully");
-    //             resetForm();
-                
-    //             setTimeout(() => {
-    //                 window.location.href = "/";
-    //             }, 3000);
-    //         } catch (error) {
-    //             toast.error("Failed to submit job");
-    //         }
-    //     } else {
-    //         setErrors(newErrors);
-    //     }
-    // };
-
-    const resetForm = () => {
-        setFormData({ heading: "", description: "", task: "", ustarPoints: "" });
-        setErrors({});
     };
 
     return (
@@ -197,8 +134,6 @@ export function JobForm({
                 </div>
                 </form>
             </motion.div>
-
-            <ToastContainer position="bottom-right" />
     </div>
     );
 }

@@ -6,7 +6,8 @@ import { SubmitDialog } from "./creator/SubmitDialog";
 import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
 import appConfig from "../AppConfig.json";
-// import gig from "../../../Gigworks/models/gig";
+import { getUStarName } from "../lib/utils";
+import { ToastContainer } from "react-toastify";
 
 export function Creator() {
   const [activePage, setActivePage] = useState("addJobs");
@@ -16,7 +17,7 @@ export function Creator() {
     heading: "",
     description: "",
     task: "",
-    ustarPoints: "",
+    ustarPoints: "1",
   });
   const [errors, setErrors] = useState({});
   const { toast } = useToast();
@@ -41,11 +42,6 @@ export function Creator() {
     fetchGigs();
   }, []);
 
-  const uStarPointsMapping = new Map();
-  uStarPointsMapping.set("1", "RisingStar");
-  uStarPointsMapping.set("2", "ShiningStar");
-  uStarPointsMapping.set("3", "SuperStar");
-  uStarPointsMapping.set("4", "NovaStar");
 
   const handleSave = () => {
     if (validateForm()) {
@@ -88,7 +84,7 @@ export function Creator() {
         "topic": formData.heading,
         "description": formData.description,
         "title": formData.task,
-        "ustar_category": uStarPointsMapping.get(formData.ustarPoints),
+        "ustar_category": getUStarName.get(formData.ustarPoints),
         "email": appConfig.hardCodedUserId+"@email.com",
       };
       console.log(payload);
@@ -177,14 +173,17 @@ export function Creator() {
 
       <main className="container mx-auto px-4 py-8">
         {activePage === "addJobs" ? (
-          <JobForm
-            formData={formData}
-            setFormData={setFormData}
-            handleSave={handleSave}
-            handleSubmit={handleSubmit}
-            errors={errors}
-            setErrors={setErrors}
-          />
+          <>
+            <JobForm
+              formData={formData}
+              setFormData={setFormData}
+              handleSave={handleSave}
+              handleSubmit={handleSubmit}
+              errors={errors}
+              setErrors={setErrors}
+            />
+            <ToastContainer/>
+          </>
         ) : (
           <JobList
             jobs={jobs}

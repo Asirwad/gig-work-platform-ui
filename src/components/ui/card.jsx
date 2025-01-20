@@ -1,5 +1,5 @@
 import * as React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 
 const Card = React.forwardRef(({ className, ...props }, ref) => (
   <div
@@ -22,16 +22,41 @@ const CardHeader = React.forwardRef(({ className, ...props }, ref) => (
 ));
 CardHeader.displayName = "CardHeader";
 
-const CardTitle = React.forwardRef(({ className, ...props }, ref) => (
-  <h3
-    ref={ref}
-    className={cn(
-      "text-2xl font-semibold leading-none tracking-tight",
-      className
-    )}
-    {...props}
-  />
-));
+const CardTitle = React.forwardRef(({ className, children, badge, ...props }, ref) => {
+  // Determine badge styles based on the badge value
+  const badgeStyles = {
+    approved: "bg-green-50 text-green-700 ring-green-600/20",
+    revoked: "bg-red-50 text-red-700 ring-red-600/20",
+    paused: "bg-yellow-50 text-yellow-700 ring-yellow-600/20",
+  };
+
+  const badgeStyle = badgeStyles[badge];
+
+  return (
+    <div className={cn("flex items-center space-x-2")}>
+      <h3
+        ref={ref}
+        className={cn(
+          "text-2xl font-semibold leading-none tracking-tight",
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </h3>
+      {badgeStyle && (
+        <span
+          className={cn(
+            "inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset",
+            badgeStyle
+          )}
+        >
+          {badge}
+        </span>
+      )}
+    </div>
+  );
+});
 CardTitle.displayName = "CardTitle";
 
 const CardDescription = React.forwardRef(({ className, ...props }, ref) => (

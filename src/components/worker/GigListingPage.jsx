@@ -157,7 +157,7 @@ export function GigListingPage({
           {gigs.map((gig) => (
             <Card key={gig.id} className="bg-white flex flex-col h-full">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-xl font-bold">
+                <CardTitle badge={gig.status} className="text-xl font-bold">
                   {highlightText(gig.topic, searchTerm)}
                 </CardTitle>
                 <Button variant="ghost" size="icon" className="text-yellow-500">

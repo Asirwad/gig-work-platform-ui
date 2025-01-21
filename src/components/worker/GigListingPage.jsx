@@ -164,7 +164,7 @@ export function GigListingPage({
         )}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {gigs.map((gig) => (
-            <Card key={gig.id} className="bg-white flex flex-col h-full">
+            <Card key={gig.id} className="bg-white flex flex-col h-full shadow-md transition duration-300 hover:shadow-xl">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle badge={gig.status} className="text-xl font-bold">
                   {highlightText(gig.topic, searchTerm)}

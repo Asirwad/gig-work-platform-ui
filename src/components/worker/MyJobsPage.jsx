@@ -7,6 +7,7 @@ import { Header } from "./Header";
 import appConfig from "../../AppConfig.json";
 import { getUStarPoint } from "../../lib/utils"
 import axios from "axios";
+import { motion } from "framer-motion";
 
 export function MyJobsPage({ onViewGig, onNavigate }) {
 
@@ -50,23 +51,31 @@ export function MyJobsPage({ onViewGig, onNavigate }) {
       />
       <main className="container mx-auto px-4 py-8">
         {interestedGigs.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-[80vh] bg-gray-100 p-6 rounded-lg shadow-lg">
-            <img 
-              src="/assets/empty_box.png" 
-              alt="No Gigs Selected" 
-              className="w-32 h-32 mb-4 animate-pulse" 
-            />
-            <h2 className="text-3xl font-semibold text-teal-600 mb-4">No Gigs Selected</h2>
-            <p className="text-gray-700 text-lg mb-6 text-center">
-              You haven't shown interest in any gigs yet. Explore and find exciting opportunities!
-            </p>
-            <Button
-              className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-full shadow-md transform transition-all duration-200 hover:scale-105"
-              onClick={() => onNavigate("jobs")}
+          <div className="flex flex-col items-center justify-center min-h-[81vh] bg-gray-100 p-6 rounded-lg shadow-lg">
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col items-center justify-center"
             >
-              Browse Available Gigs
-            </Button>
-        </div>
+              <img 
+                src="/assets/empty_box.png" 
+                alt="No Gigs Selected" 
+                className="w-32 h-32 mb-4 animate-pulse" 
+              />
+              <h2 className="text-3xl font-semibold text-teal-600 mb-4">No Gigs Selected</h2>
+              <p className="text-gray-700 text-lg mb-6 text-center">
+                You haven't shown interest in any gigs yet. Explore and find exciting opportunities!
+              </p>
+              <Button
+                className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-full shadow-md transform transition-all duration-200 hover:scale-105"
+                onClick={() => onNavigate("jobs")}
+              >
+                Browse Available Gigs
+              </Button>
+            </motion.div>
+          </div>
+          
         
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

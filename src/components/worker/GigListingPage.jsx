@@ -15,6 +15,7 @@ import { Star, Bell, Search, UserCircle2 } from "lucide-react";
 import axios from "axios";
 import appConfig from "../../AppConfig.json";
 import { getUStarPoint } from "../../lib/utils";
+import { motion } from "framer-motion";
 
 export function GigListingPage({
   onViewGig,
@@ -163,33 +164,48 @@ export function GigListingPage({
           <div className="text-center mt-6 text-2xl text-teal-600 font-semibold ">No gigs available.</div>
         )}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {gigs.map((gig) => (
-            <Card key={gig.id} className="bg-white flex flex-col h-full shadow-md transition duration-300 hover:shadow-xl">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle badge={gig.status} className="text-xl font-bold">
-                  {highlightText(gig.topic, searchTerm)}
-                </CardTitle>
-                <Button variant="ghost" size="icon" className="text-yellow-500">
-                  <Star className="h-4 w-4" />
-                  <span className="ml-1">{getUStarPoint.get(gig.ustar_category)}</span>
-                </Button>
-              </CardHeader>
-              <CardContent className="flex-grow flex flex-col justify-between">
-                <div>
-                  <h3 className="font-semibold mb-2">Description</h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    {highlightText(gig.description, searchTerm)}
-                  </p>
-                </div>
-                <Button
-                  className="w-full bg-teal-600 hover:bg-teal-700 mt-auto text-white"
-                  onClick={() => handleViewClick(gig)}
-                >
-                  View
-                  <span className="ml-2">→</span>
-                </Button>
-              </CardContent>
-            </Card>
+          {gigs.map((gig, index) => (
+            <motion.div
+              key={gig.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ 
+                opacity: 1, 
+                y: 0 ,
+                transition: { duration: 0.5, delay: 0.1 * index }
+              }}
+              whileTap={{ 
+                scale: 0.95, 
+                transition: { duration: 0.5 }
+              }}
+            >
+                <Card key={gig.id} className="bg-white flex flex-col h-full shadow-md transition duration-300 hover:shadow-xl">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle badge={gig.status} className="text-xl font-bold">
+                    {highlightText(gig.topic, searchTerm)}
+                  </CardTitle>
+                  <Button variant="ghost" size="icon" className="text-yellow-500">
+                    <Star className="h-4 w-4" />
+                    <span className="ml-1">{getUStarPoint.get(gig.ustar_category)}</span>
+                  </Button>
+                </CardHeader>
+                <CardContent className="flex-grow flex flex-col justify-between">
+                  <div>
+                    <h3 className="font-semibold mb-2">Description</h3>
+                    <p className="text-sm text-gray-600 mb-4">
+                      {highlightText(gig.description, searchTerm)}
+                    </p>
+                  </div>
+                  <Button
+                    className="w-full bg-teal-600 hover:bg-teal-700 mt-auto text-white"
+                    onClick={() => handleViewClick(gig)}
+                  >
+                    View
+                    <span className="ml-2">→</span>
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
+            
           ))}
         </div>
       </main>

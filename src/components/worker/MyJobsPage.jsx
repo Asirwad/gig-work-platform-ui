@@ -82,7 +82,7 @@ export function MyJobsPage({ onViewGig, onNavigate }) {
             {interestedGigs.filter(gig => gig.status !== 'revoked').map((gig) => (
               <Card key={gig._id} className="bg-white flex flex-col h-full">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-xl font-bold">
+                  <CardTitle badge={gig.gig_engagement_status} className="text-xl font-bold">
                   {gig.topic}
                   </CardTitle>
                   <Button
@@ -100,11 +100,11 @@ export function MyJobsPage({ onViewGig, onNavigate }) {
                     <p className="text-sm text-gray-600 mb-4">
                       {gig.description}
                     </p>
-                    <p className="text-sm font-semibold mb-2">
+                    {/* <p className="text-sm font-semibold mb-2">
                       {gig.status === "approved"
                         ? "Approved"
                         : "Yet to Approve"}
-                    </p>
+                    </p> */}
                   </div>
                   <Button
                     className={`w-full ${

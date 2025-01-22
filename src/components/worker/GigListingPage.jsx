@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Button } from "@/components/ui/button";
+import Tooltip from '@mui/material/Tooltip';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
@@ -183,10 +184,12 @@ export function GigListingPage({
                   <CardTitle className="text-xl font-bold">
                     {highlightText(gig.topic, searchTerm)}
                   </CardTitle>
-                  <Button variant="ghost" size="icon" className="text-yellow-500">
-                    <Star className="h-4 w-4" />
-                    <span className="ml-1">{getUStarPoint.get(gig.ustar_category)}</span>
-                  </Button>
+                  <Tooltip title={gig.ustar_category} arrow>
+                    <Button variant="ghost" size="icon" className="text-yellow-500">
+                      <Star className="h-4 w-4" />
+                      <span className="ml-1">{getUStarPoint.get(gig.ustar_category)}</span>
+                    </Button>
+                  </Tooltip>
                 </CardHeader>
                 <CardContent className="flex-grow flex flex-col justify-between">
                   <div>

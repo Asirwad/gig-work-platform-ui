@@ -77,7 +77,7 @@ export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
   })
   const isDraft = job.status === "draft";
 
-  console.log(`job: `, job)
+  // console.log(`job: `, job)
 
   const user_id = appConfig.hardCodedUserId;
 

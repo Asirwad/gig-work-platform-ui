@@ -1,4 +1,4 @@
-import {React, useEffect, useState} from "react";
+import { React, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,6 +8,8 @@ import appConfig from "../../AppConfig.json";
 import { getUStarPoint } from "../../lib/utils"
 import axios from "axios";
 import { motion } from "framer-motion";
+import Tooltip from '@mui/material/Tooltip';
+
 
 export function MyJobsPage({ onViewGig, onNavigate }) {
 
@@ -39,15 +41,15 @@ export function MyJobsPage({ onViewGig, onNavigate }) {
 
     fetchInterestedGigs();
   }, []);
-  
+
 
   return (
     <div className="min-h-screen bg-gray-100">
       <Header
         activePage="myJobs"
         onNavigate={onNavigate}
-        onSearch={() => {}}
-        onNotificationClick={() => {}}
+        onSearch={() => { }}
+        onNotificationClick={() => { }}
       />
       <main className="container mx-auto px-4 py-8">
         {interestedGigs.length === 0 ? (
@@ -58,10 +60,10 @@ export function MyJobsPage({ onViewGig, onNavigate }) {
               transition={{ duration: 0.5 }}
               className="flex flex-col items-center justify-center"
             >
-              <img 
-                src="/assets/empty_box.png" 
-                alt="No Gigs Selected" 
-                className="w-32 h-32 mb-4 animate-pulse" 
+              <img
+                src="/assets/empty_box.png"
+                alt="No Gigs Selected"
+                className="w-32 h-32 mb-4 animate-pulse"
               />
               <h2 className="text-3xl font-semibold text-teal-600 mb-4">No Gigs Selected</h2>
               <p className="text-gray-700 text-lg mb-6 text-center">
@@ -75,24 +77,22 @@ export function MyJobsPage({ onViewGig, onNavigate }) {
               </Button>
             </motion.div>
           </div>
-          
-        
+
+
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {interestedGigs.map((gig) => (
               <Card key={gig._id} className="bg-white flex flex-col h-full">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle badge={gig.gig_engagement_status} className="text-xl font-bold">
-                  {gig.topic}
+                    {gig.topic}
                   </CardTitle>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="text-yellow-500"
-                  >
-                    <Star className="h-4 w-4" />
-                    <span className="ml-1">{getUStarPoint.get(gig.ustar_category)}</span>
-                  </Button>
+                  <Tooltip title={gig.ustar_category} arrow>
+                    <Button variant="ghost" size="icon" className="text-yellow-500">
+                      <Star className="h-4 w-4" />
+                      <span className="ml-1">{getUStarPoint.get(gig.ustar_category)}</span>
+                    </Button>
+                  </Tooltip>
                 </CardHeader>
                 <CardContent className="flex-grow flex flex-col justify-between">
                   <div>

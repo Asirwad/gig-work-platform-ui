@@ -20,38 +20,27 @@ export function GigDetailsPage({
   onShowInterest,
   onWithdrawInterest,
   onNavigate,
-  isInterested,
 }) {
   const [isInterestPopupOpen, setIsInterestPopupOpen] = useState(false);
   const [isWithdrawPopupOpen, setIsWithdrawPopupOpen] = useState(false);
   const [engagementStatus, setEngagementStatus] = useState(null);
 
   useEffect(() => {
-    const getUserEngagementStatus = async () => {
-      try {
-        const response = await axios.get(appconfig.apiBaseUrl + `/gig/${gig._id}/interested_user`, {
-          headers: {
-            'user_id': appconfig.hardCodedUserId
-          }
-        });
-        if(response.data.message === 'User not found who showed interest in this gig.') return 'not_interested'
-        return response.data.status;
-        
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        return null;
+    axios.get(appconfig.apiBaseUrl + `/gigs/${gig._id}/engagement_status`,
+      {
+        headers: {
+          'user_id': appconfig.hardCodedUserId,
+        }
       }
-    };
-
-    const fetchEngagementStatus = async () => {
-      const status = await getUserEngagementStatus();
-      setEngagementStatus(status);
-    }
-  
-    fetchEngagementStatus();
-    console.log(engagementStatus);
-  });
-  
+    )
+      .then(function (response) {
+        setEngagementStatus(response.data.status);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+      console.log(engagementStatus)
+  })
 
   const handleShowInterest = () => {
     setIsInterestPopupOpen(true);
@@ -75,19 +64,31 @@ export function GigDetailsPage({
       });
     setIsInterestPopupOpen(false);
     onShowInterest(gig);
+    setEngagementStatus("interested");
   };
-
-  isInterested = (engagementStatus === 'interested') ? true : false;
 
   const handleWithdrawInterest = () => {
     setIsWithdrawPopupOpen(true);
   };
 
   const handleWithdrawConfirm = () => {
-    // TODO: with
-    setIsWithdrawPopupOpen(false);
-    onWithdrawInterest(gig);
-    onNavigate("myJobs");
+    axios.delete(appconfig.apiBaseUrl + '/withdraw_interest',
+      {
+        data: { gig_id: gig._id },
+        headers: {
+          'user_id': appconfig.hardCodedUserId
+        }
+      }
+    )
+      .then(function (response) {
+        console.log(response);
+        setIsWithdrawPopupOpen(false);
+        onWithdrawInterest(gig);
+        setEngagementStatus(null);
+        onNavigate("myJobs");
+      }).catch(function (error) {
+        console.log(error);
+      });
   };
 
   return (
@@ -154,19 +155,19 @@ export function GigDetailsPage({
 
             {/* Interest Button */}
             <div className="text-right">
-              {isInterested ? (
+              { engagementStatus === null ? (
+                  <Button
+                    className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-md transition-all duration-300"
+                    onClick={handleShowInterest}
+                  >
+                    Show Interest
+                  </Button>
+              ): (
                 <Button
                   className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-md transition-all duration-300"
                   onClick={handleWithdrawInterest}
                 >
                   Withdraw Interest
-                </Button>
-              ) : (
-                <Button
-                  className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-md transition-all duration-300"
-                  onClick={handleShowInterest}
-                >
-                  Show Interest
                 </Button>
               )}
             </div>

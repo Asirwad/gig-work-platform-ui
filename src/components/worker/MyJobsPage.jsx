@@ -107,11 +107,7 @@ export function MyJobsPage({ onViewGig, onNavigate }) {
                     </p> */}
                   </div>
                   <Button
-                    className={`w-full ${
-                      gig.status === "approved"
-                        ? "bg-teal-600 hover:bg-teal-700"
-                        : "bg-gray-400"
-                    } mt-auto`}
+                    className={`w-full bg-teal-600 hover:bg-teal-700 mt-auto text-white`}
                     onClick={() => onViewGig(gig)}
                   >
                     View

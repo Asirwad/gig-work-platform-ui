@@ -11,7 +11,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Star, Bell, Search, UserCircle2, Loader } from "lucide-react";
+import { Star, Bell, Search, UserCircle2 } from "lucide-react";
 import axios from "axios";
 import appConfig from "../../AppConfig.json";
 import { getUStarPoint } from "../../lib/utils";
@@ -102,11 +102,7 @@ export function GigListingPage({
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <Loader className="animate-spin text-teal-600" size={64} />
-      </div>
-    );
+    return <div className="text-center mt-6">Loading gigs...</div>;
   }
 
   if (error) {
@@ -168,7 +164,7 @@ export function GigListingPage({
           <div className="text-center mt-6 text-2xl text-teal-600 font-semibold ">No gigs available.</div>
         )}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredGigs.map((gig, index) => (
+          {gigs.map((gig, index) => (
             <motion.div
               key={gig.id}
               initial={{ opacity: 0, y: 20 }}
@@ -184,7 +180,7 @@ export function GigListingPage({
             >
                 <Card key={gig.id} className="bg-white flex flex-col h-full shadow-md transition duration-300 hover:shadow-xl">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle badge={gig.status} className="text-xl font-bold">
+                  <CardTitle className="text-xl font-bold">
                     {highlightText(gig.topic, searchTerm)}
                   </CardTitle>
                   <Button variant="ghost" size="icon" className="text-yellow-500">

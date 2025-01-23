@@ -5,7 +5,7 @@ import { JobList } from "./creator/JobList";
 import { SubmitDialog } from "./creator/SubmitDialog";
 import axios from "axios";
 import appConfig from "../AppConfig.json";
-import { getUStarName } from "../lib/utils";
+import { getUStarName, getUStarPoint } from "../lib/utils";
 import { toast, ToastContainer } from "react-toastify";
 
 export function Creator() {
@@ -64,15 +64,6 @@ export function Creator() {
 
   const confirmSubmit = async () => {
     console.log(formData);
-    const newJob = {
-      ...formData,
-      id: Date.now(),
-      status: "submitted",
-      createdAt: new Date().toISOString(),
-    };
-    setJobs((prev) => [...prev, newJob]);
-    resetForm();
-    setShowSubmitDialog(false);
 
     try {
       const payload = {
@@ -83,7 +74,7 @@ export function Creator() {
         "email": appConfig.hardCodedUserId+"@email.com",
       };
       console.log(payload);
-      await axios.post(appConfig.apiBaseUrl +"/create_gig", payload, 
+      const response = await axios.post(appConfig.apiBaseUrl +"/create_gig", payload, 
         {
         headers:{
           "Content-Type": "application/json",
@@ -94,6 +85,19 @@ export function Creator() {
         title: "Job Submitted",
         description: "Your job has been submitted successfully.",
       });
+      const newJob = {
+        ...formData,
+        id: response.data.gig_id,
+        status: "awaiting_admin_approval",
+        topic: formData.heading,
+        description: formData.description,
+        task: formData.task,
+        ustarPoints: getUStarPoint.get(formData.ustarPoints),
+        createdAt: new Date().toISOString(),
+      };
+      setJobs((prev) => [...prev, newJob]);
+      resetForm();
+      setShowSubmitDialog(false);
       setActivePage("postedJobs");
     } catch (error) {
       console.log(error);

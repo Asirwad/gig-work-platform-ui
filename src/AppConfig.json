@@ -4,5 +4,5 @@
     "environment": "development",
     "logLevel": "info",
     "hardCodedUserId": "675712e7450aead0d3a404f7",
-    "currentUserRole": "manager"
+    "currentUserRole": "user"
 }

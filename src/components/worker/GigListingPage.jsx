@@ -185,19 +185,22 @@ export function GigListingPage({
                     {highlightText(gig.topic, searchTerm)}
                   </CardTitle>
                   <Tooltip.Provider>
-                  <Tooltip.Root>
-                    <Tooltip.Trigger asChild>
-                      <Button variant="ghost" size="icon" className="text-yellow-500">
-                        <Star className="h-4 w-4" />
-                        <span className="ml-1">{getUStarPoint.get(gig.ustar_category)}</span>
-                      </Button>
-                    </Tooltip.Trigger>
-                    <Tooltip.Content side="top" className="px-3 py-2 bg-yellow-500 text-white text-sm rounded-md shadow-md">
+                    <Tooltip.Root>
+                      <Tooltip.Trigger asChild>
+                        <Button variant="ghost" size="icon" className="text-yellow-500">
+                          <Star className="h-4 w-4 hover:fill-yellow-500" />
+                          <span className="ml-1">{getUStarPoint.get(gig.ustar_category)}</span>
+                        </Button>
+                      </Tooltip.Trigger>
+                      <Tooltip.Content
+                        side="top"
+                        className="px-2 py-1 bg-yellow-500/80 text-white text-sm rounded-md shadow-lg backdrop-blur-md border border-white/30"
+                      >
                         {gig.ustar_category}
                         <Tooltip.Arrow className="fill-yellow-500" />
-                    </Tooltip.Content>
-                  </Tooltip.Root>
-                  </Tooltip.Provider>
+                      </Tooltip.Content>
+                    </Tooltip.Root>
+                </Tooltip.Provider>
                   
                 </CardHeader>
                 <CardContent className="flex-grow flex flex-col justify-between">

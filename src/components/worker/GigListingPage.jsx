@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Button } from "@/components/ui/button";
-// import { Tooltip } from "@mui/material";
+import * as Tooltip from '@radix-ui/react-tooltip';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
@@ -184,16 +184,21 @@ export function GigListingPage({
                   <CardTitle className="text-xl font-bold">
                     {highlightText(gig.topic, searchTerm)}
                   </CardTitle>
-                  {/* <Tooltip title={gig.ustar_category} arrow>
-                    <Button variant="ghost" size="icon" className="text-yellow-500">
-                      <Star className="h-4 w-4" />
-                      <span className="ml-1">{getUStarPoint.get(gig.ustar_category)}</span>
-                    </Button>
-                  </Tooltip> */}
-                  <Button variant="ghost" size="icon" className="text-yellow-500">
-                      <Star className="h-4 w-4" />
-                      <span className="ml-1">{getUStarPoint.get(gig.ustar_category)}</span>
-                  </Button>
+                  <Tooltip.Provider>
+                  <Tooltip.Root>
+                    <Tooltip.Trigger asChild>
+                      <Button variant="ghost" size="icon" className="text-yellow-500">
+                        <Star className="h-4 w-4" />
+                        <span className="ml-1">{getUStarPoint.get(gig.ustar_category)}</span>
+                      </Button>
+                    </Tooltip.Trigger>
+                    <Tooltip.Content side="top" className="px-3 py-2 bg-yellow-500 text-white text-sm rounded-md shadow-md">
+                        {gig.ustar_category}
+                        <Tooltip.Arrow className="fill-yellow-500" />
+                    </Tooltip.Content>
+                  </Tooltip.Root>
+                  </Tooltip.Provider>
+                  
                 </CardHeader>
                 <CardContent className="flex-grow flex flex-col justify-between">
                   <div>

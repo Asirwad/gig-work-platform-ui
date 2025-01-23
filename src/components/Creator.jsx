@@ -92,7 +92,7 @@ export function Creator() {
         topic: formData.heading,
         description: formData.description,
         task: formData.task,
-        ustarPoints: getUStarPoint.get(formData.ustarPoints),
+        ustar_category: getUStarName.get(formData.ustarPoints),
         createdAt: new Date().toISOString(),
       };
       setJobs((prev) => [...prev, newJob]);

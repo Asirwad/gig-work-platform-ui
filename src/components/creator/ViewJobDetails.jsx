@@ -44,12 +44,6 @@ export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
 
   const user_id = appConfig.hardCodedUserId;
 
-  const reversedUStarMapping = new Map();
-  reversedUStarMapping.set("RisingStar", "1");
-  reversedUStarMapping.set("ShiningStar", "2");
-  reversedUStarMapping.set("SuperStar", "3");
-  reversedUStarMapping.set("NovaStar", "4");
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setTaskDetails((prev) => ({

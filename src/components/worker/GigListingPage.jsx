@@ -162,7 +162,24 @@ export function GigListingPage({
       
       <main className="container mx-auto px-4 py-8">
         { gigs.length === 0 && (
-          <div className="text-center mt-6 text-2xl text-teal-600 font-semibold ">No gigs available.</div>
+          <div className="flex flex-col items-center justify-center min-h-[81vh] bg-gray-100 p-6 rounded-lg shadow-lg">
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col items-center justify-center"
+            >
+              <img
+                src="/assets/empty_box.png"
+                alt="No Gigs Selected"
+                className="w-32 h-32 mb-4 animate-pulse"
+              />
+              <h2 className="text-3xl font-semibold text-teal-600 mb-4">No gigs available</h2>
+              <p className="text-gray-700 text-lg mb-6 text-center">
+                There are currently no gigs available. Please check back later.
+              </p>
+            </motion.div>
+          </div>
         )}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {gigs.map((gig, index) => (

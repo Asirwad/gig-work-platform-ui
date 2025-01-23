@@ -3,11 +3,10 @@ import { Header } from "./creator/Header";
 import { JobForm } from "./creator/JobForm";
 import { JobList } from "./creator/JobList";
 import { SubmitDialog } from "./creator/SubmitDialog";
-import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
 import appConfig from "../AppConfig.json";
 import { getUStarName } from "../lib/utils";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 export function Creator() {
   const [activePage, setActivePage] = useState("addJobs");
@@ -20,7 +19,6 @@ export function Creator() {
     ustarPoints: "1",
   });
   const [errors, setErrors] = useState({});
-  const { toast } = useToast();
 
   useEffect(() => {
     const fetchGigs = async () => {
@@ -51,12 +49,9 @@ export function Creator() {
         status: "draft",
         createdAt: new Date().toISOString(),
       };
-      setJobs((prev) => [...prev, newJob]);
-      resetForm();
-      toast({
-        title: "Job Saved",
-        description: "Your job has been saved as a draft.",
-      });
+      //setJobs((prev) => [...prev, newJob]);
+      //resetForm();
+      toast.info("Your job has been saved as a draft.")
     }
   };
 
@@ -182,7 +177,7 @@ export function Creator() {
               errors={errors}
               setErrors={setErrors}
             />
-            <ToastContainer/>
+            <ToastContainer position="bottom-right"/>
           </>
         ) : (
           <JobList

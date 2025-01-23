@@ -6,9 +6,19 @@ import appConfig from "../../AppConfig.json";
 import { motion } from "framer-motion";
 import { getUStarPoint } from "../../lib/utils";
 import { toast, ToastContainer } from "react-toastify";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '../ui/dialog';
 
 export function JobList({ jobs, setJobs, onUpdateJob, onSubmitJob }) {
   const [selectedJob, setSelectedJob] = useState(null);
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogContent, setDialogContent] = useState({
+    title: "",
+    description: "",
+    confirmText: "",
+    cancelText: "",
+  });
+  const [gigIdForRevoke, setGigIdForRevoke] = useState(null);
 
   const handleJobSelect = (job) => {
     setSelectedJob(job);
@@ -58,7 +68,21 @@ export function JobList({ jobs, setJobs, onUpdateJob, onSubmitJob }) {
   }
 
   const handlePause = (gigId, status) => updateGigStatus(gigId, status);
-  const handleRevoke = (gigId) => updateGigStatus(gigId, "revoked");
+  // const handleRevoke = (gigId) => updateGigStatus(gigId, "revoked");
+  const handleRevoke = (gigId) => {
+    setDialogContent({
+      title: "Revoke Gig",
+      description: "Are you sure you want to revoke this gig?",
+      confirmText: "Revoke",
+      cancelText: "Cancel",
+    });
+    setDialogOpen(true);
+    setGigIdForRevoke(gigId);
+  }
+
+  const handleRevokeConfirm = () => updateGigStatus(gigIdForRevoke, "revoked");
+  const handleRevokeCancel = () => setDialogOpen(false);
+
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
@@ -141,6 +165,22 @@ export function JobList({ jobs, setJobs, onUpdateJob, onSubmitJob }) {
       {jobs.length === 0 && (
         <p className="text-center text-gray-500">No jobs posted yet.</p>
       )}
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{dialogContent.title}</DialogTitle>
+            <p>{dialogContent.description}</p>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={handleRevokeCancel}>
+              {dialogContent.cancelText}
+            </Button>
+            <Button variant="destructive" className="bg-red-600 text-white hover:bg-red-500 transition-colors" onClick={handleRevokeConfirm}>
+              {dialogContent.confirmText}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       <ToastContainer position="bottom-left" />
     </div>
 

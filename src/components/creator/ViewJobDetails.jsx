@@ -39,6 +39,7 @@ export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
     collaborator_id: '',
   })
   const isDraft = job.status === "draft";
+  const [currentTab, setCurrentTab] = useState('users');
 
   // console.log(`job: `, job)
 
@@ -338,11 +339,43 @@ export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
             </div>
 
             <Tabs defaultValue="users" className="p-6">
-              <TabsList>
-                <TabsTrigger value="users">User Status</TabsTrigger>
-                <TabsTrigger value="task">Task</TabsTrigger>
-                <TabsTrigger value="collaborators">Collaborators</TabsTrigger>
-                <TabsTrigger value="addCollaborator">Add Collaborator</TabsTrigger>
+              <TabsList className="gap-2">
+                <TabsTrigger
+                  value="users"
+                  onClick={() => setCurrentTab('users')}
+                  className={`${
+                    currentTab === 'users' ? 'bg-teal-600 text-white' : 'bg-gray-200 text-teal-600'
+                  } ${currentTab !== 'users' && 'hover:bg-teal-100 hover:text-teal-800'} transition-colors duration-300 ease-in-out px-4 py-2 rounded-md`}
+                >
+                  User Status
+                </TabsTrigger>
+                <TabsTrigger
+                  value="task"
+                  onClick={() => setCurrentTab('task')}
+                  className={`${
+                    currentTab === 'task' ? 'bg-teal-600 text-white' : 'bg-gray-200 text-teal-600'
+                  } ${currentTab !== 'task' && 'hover:bg-teal-100 hover:text-teal-800'} transition-colors duration-300 ease-in-out px-4 py-2 rounded-md`}
+                >
+                  Task
+                </TabsTrigger>
+                <TabsTrigger
+                  value="collaborators"
+                  onClick={() => setCurrentTab('collaborators')}
+                  className={`${
+                    currentTab === 'collaborators' ? 'bg-teal-600 text-white' : 'bg-gray-200 text-teal-600'
+                  } ${currentTab !== 'collaborators' && 'hover:bg-teal-100 hover:text-teal-800'} transition-colors duration-300 ease-in-out px-4 py-2 rounded-md`}
+                >
+                  Collaborators
+                </TabsTrigger>
+                <TabsTrigger
+                  value="addCollaborator"
+                  onClick={() => setCurrentTab('addCollaborator')}
+                  className={`${
+                    currentTab === 'addCollaborator' ? 'bg-teal-600 text-white' : 'bg-gray-200 text-teal-600'
+                  } ${currentTab !== 'addCollaborator' && 'hover:bg-teal-100 hover:text-teal-800'} transition-colors duration-300 ease-in-out px-4 py-2 rounded-md`}
+                >
+                  Add Collaborator
+                </TabsTrigger>
               </TabsList>
 
               <TabsContent value="users" className="mt-6">

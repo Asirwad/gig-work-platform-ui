@@ -76,13 +76,15 @@ export function JobList({ jobs, setJobs, onUpdateJob, onSubmitJob }) {
                 <h3 className="text-xl font-bold text-gray-800 tracking-tight">
                   {job.topic}
                 </h3>
-                <span className={`inline-block text-sm font-medium mt-1 ${
-                  job.status === "approved"
-                    ? "text-green-600"
-                    : job.status === "paused"
-                    ? "text-yellow-500"
-                    : "text-gray-500"
-                }`}>
+                <span
+                  className={`inline-block text-xs font-medium mt-1 px-2 py-1 rounded-full transition-all duration-300 ${
+                    job.status === "approved"
+                      ? "bg-green-100 text-green-600 hover:bg-green-200"
+                      : job.status === "paused"
+                      ? "bg-yellow-100 text-yellow-600 hover:bg-yellow-200"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
+                >
                   Status: {job.status.toUpperCase()}
                 </span>
               </div>

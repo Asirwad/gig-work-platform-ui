@@ -112,7 +112,7 @@ export function JobList({ jobs, setJobs, onUpdateJob, onSubmitJob }) {
               <Button
                 variant="outline"
                 size="sm"
-                className="bg-white text-yellow-500 border-yellow-500 hover:bg-yellow-50 transition-transform transform hover:scale-105"
+                className="bg-white text-teal-600 border-teal-600 hover:bg-teal-50 transition-transform transform hover:scale-105"
                 onClick={() =>
                   handlePause(
                     job._id,
@@ -125,7 +125,7 @@ export function JobList({ jobs, setJobs, onUpdateJob, onSubmitJob }) {
               <Button
                 variant="outline"
                 size="sm"
-                className="bg-white text-red-600 border-red-600 hover:bg-red-50 transition-transform transform hover:scale-105"
+                className="bg-white text-teal-600 border-teal-600 hover:bg-red-500 hover:text-white transition-transform transform hover:scale-105"
                 onClick={() => handleRevoke(job._id)}
               >
                 Revoke

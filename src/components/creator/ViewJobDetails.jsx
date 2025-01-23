@@ -20,43 +20,6 @@ import {
 import appConfig from "../../AppConfig.json";
 import axios from "axios";
 
-// Dummy data for interested users
-// const dummyUsers = [
-//   {
-//     id: 1,
-//     name: "XYZ1",
-//     uid: "XXXXXXXX1",
-//     role: "XYZ",
-//     status: "Completed",
-//     teamsLink: "https://teams.microsoft.com/l/chat/0",
-//   },
-//   {
-//     id: 2,
-//     name: "XYZ2",
-//     uid: "XXXXXXXX2",
-//     role: "XYZ",
-//     status: "Submitted",
-//     teamsLink: "https://teams.microsoft.com/l/chat/1",
-//   },
-//   {
-//     id: 3,
-//     name: "XYZ3",
-//     uid: "XXXXXXXX3",
-//     role: "XYZ",
-//     status: "Completed",
-//     teamsLink: "https://teams.microsoft.com/l/chat/2",
-//   },
-// ];
-
-// class users{
-//     id: Number,
-//     name: String,
-//     uid: String,
-//     role: String,
-//     status: String,
-//     teamsLink: String,
-// }
-
 export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
   const [isEditingTask, setIsEditingTask] = useState(false);
   const [taskDetails, setTaskDetails] = useState("");

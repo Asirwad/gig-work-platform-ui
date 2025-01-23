@@ -102,6 +102,7 @@ export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
       .then((response) => {
         console.log(response.data);
         setIsEditingTask(false);
+        setTaskDetails(taskDetails);
         toast.success("Task updated successfully");
       })
       .catch((error) => {
@@ -470,7 +471,7 @@ export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
                     </div>
                   ) : (
                     <div className="relative pb-6">
-                      <p className="whitespace-pre-line">{job.title}</p>
+                      <p className="whitespace-pre-line">{taskDetails}</p>
                       <button
                         onClick={handleTaskEdit}
                         className="absolute bottom-0 right-0 bg-teal-600 hover:bg-teal-400 text-white text-sm px-4 py-1.5 rounded"

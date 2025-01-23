@@ -8,7 +8,6 @@ import appConfig from "../../AppConfig.json";
 import { getUStarPoint } from "../../lib/utils"
 import axios from "axios";
 import { motion } from "framer-motion";
-import Tooltip from '@mui/material/Tooltip';
 
 
 export function MyJobsPage({ onViewGig, onNavigate }) {
@@ -87,12 +86,16 @@ export function MyJobsPage({ onViewGig, onNavigate }) {
                   <CardTitle badge={gig.gig_engagement_status} className="text-xl font-bold">
                     {gig.topic}
                   </CardTitle>
-                  <Tooltip title={gig.ustar_category} arrow>
+                  {/* <Tooltip title={gig.ustar_category} arrow>
                     <Button variant="ghost" size="icon" className="text-yellow-500">
                       <Star className="h-4 w-4" />
                       <span className="ml-1">{getUStarPoint.get(gig.ustar_category)}</span>
                     </Button>
-                  </Tooltip>
+                  </Tooltip> */}
+                  <Button variant="ghost" size="icon" className="text-yellow-500">
+                      <Star className="h-4 w-4" />
+                      <span className="ml-1">{getUStarPoint.get(gig.ustar_category)}</span>
+                  </Button>
                 </CardHeader>
                 <CardContent className="flex-grow flex flex-col justify-between">
                   <div>

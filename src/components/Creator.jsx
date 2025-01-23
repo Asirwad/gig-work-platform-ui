@@ -187,6 +187,7 @@ export function Creator() {
         ) : (
           <JobList
             jobs={jobs}
+            setJobs={setJobs}
             onUpdateJob={handleUpdateJob}
             onSubmitJob={handleSubmitJob}
           />

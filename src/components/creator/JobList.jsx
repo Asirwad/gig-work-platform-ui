@@ -5,8 +5,9 @@ import axios from "axios";
 import appConfig from "../../AppConfig.json";
 import { motion } from "framer-motion";
 import { getUStarPoint } from "../../lib/utils";
+import { toast, ToastContainer } from "react-toastify";
 
-export function JobList({ jobs, onUpdateJob, onSubmitJob }) {
+export function JobList({ jobs, setJobs, onUpdateJob, onSubmitJob }) {
   const [selectedJob, setSelectedJob] = useState(null);
 
   const handleJobSelect = (job) => {
@@ -30,9 +31,9 @@ export function JobList({ jobs, onUpdateJob, onSubmitJob }) {
             }
           }
         );
-        console.log("Updated!")
-        // to be replaced by appropriate method
+        toast.success('Status updated successfully');
         window.location.reload();
+             
     }catch(err){
       console.log("Failed to update gig Status\n", err);
     }
@@ -92,13 +93,13 @@ export function JobList({ jobs, onUpdateJob, onSubmitJob }) {
               className="bg-white text-teal-600 border-teal-600 hover:bg-teal-50"
               onClick={() => handleJobSelect(job)}
             >
-              {job.status === "draft" ? "Edit" : "View"}
+              {job.status === "approved" ? "Edit" : "View"}
             </Button>
             <Button
               variant="outline"
               size="sm"
               className="bg-white text-teal-600 border-teal-600 hover:bg-teal-50"
-              onClick={()=> handlePause(job._id, job.status === "paused" ? "Open" : "paused")}
+              onClick={()=> handlePause(job._id, job.status === "paused" ? "approved" : "paused")}
             >
               {job.status === "paused" ? "Open" : "Pause"}
             </Button>
@@ -118,6 +119,7 @@ export function JobList({ jobs, onUpdateJob, onSubmitJob }) {
       {jobs.length === 0 && (
         <p className="text-center text-gray-500">No jobs posted yet.</p>
       )}
+      <ToastContainer position="bottom-left"/>
     </div>
   );
 }

@@ -41,9 +41,9 @@ export function MyJobsPage({ onViewGig, onNavigate }) {
     fetchInterestedGigs();
   }, []);
 
-  useEffect(()=>{
-    setinterestedGigs(interestedGigs.filter((gig) => gig.status !== 'revoked'));
-  }, [interestedGigs])
+  // useEffect(()=>{
+  //   setinterestedGigs(interestedGigs.filter((gig) => gig.status !== 'revoked'));
+  // }, [interestedGigs])
 
 
   return (

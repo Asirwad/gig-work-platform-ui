@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { ArrowLeft } from "lucide-react";
 import { Header } from "./Header";
-import appconfig from '../../AppConfig.json'
+import appconfig from "../../AppConfig.json";
 import axios from "axios";
 import { motion } from "framer-motion";
 
@@ -26,41 +26,40 @@ export function GigDetailsPage({
   const [engagementStatus, setEngagementStatus] = useState(null);
 
   useEffect(() => {
-    axios.get(appconfig.apiBaseUrl + `/gigs/${gig._id}/engagement_status`,
-      {
+    axios
+      .get(appconfig.apiBaseUrl + `/gigs/${gig._id}/engagement_status`, {
         headers: {
-          'user_id': appconfig.hardCodedUserId,
-        }
-      }
-    )
-      .then(function (response) {
+          user_id: appconfig.hardCodedUserId,
+        },
+      })
+      .then((response) => {
         setEngagementStatus(response.data.status);
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch((error) => {
+        console.error(error);
       });
-      console.log(engagementStatus)
-  })
+  }, [gig._id]);
 
   const handleShowInterest = () => {
     setIsInterestPopupOpen(true);
   };
 
   const handleInterestConfirm = () => {
-    axios.post(appconfig.apiBaseUrl + '/express_interest', 
-      {
-      'gig_id': gig._id,},
-      {
-        headers: {
-        'user_id': appconfig.hardCodedUserId
+    axios
+      .post(
+        appconfig.apiBaseUrl + "/express_interest",
+        { gig_id: gig._id },
+        {
+          headers: {
+            user_id: appconfig.hardCodedUserId,
+          },
         }
-     }
-    )
-      .then(function (response) {
+      )
+      .then((response) => {
         console.log(response);
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch((error) => {
+        console.error(error);
       });
     setIsInterestPopupOpen(false);
     onShowInterest(gig);
@@ -72,190 +71,164 @@ export function GigDetailsPage({
   };
 
   const handleWithdrawConfirm = () => {
-    axios.delete(appconfig.apiBaseUrl + '/withdraw_interest',
-      {
+    axios
+      .delete(appconfig.apiBaseUrl + "/withdraw_interest", {
         data: { gig_id: gig._id },
         headers: {
-          'user_id': appconfig.hardCodedUserId
-        }
-      }
-    )
-      .then(function (response) {
+          user_id: appconfig.hardCodedUserId,
+        },
+      })
+      .then((response) => {
         console.log(response);
         setIsWithdrawPopupOpen(false);
         onWithdrawInterest(gig);
         setEngagementStatus(null);
         onNavigate("myJobs");
-      }).catch(function (error) {
-        console.log(error);
+      })
+      .catch((error) => {
+        console.error(error);
       });
   };
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Header Section */}
-      <Header
-        activePage="jobs"
-        onNavigate={onNavigate}
-        onSearch={() => {}}
-        onNotificationClick={() => {}}
-      />
+      {/* Header */}
+      <Header activePage="jobs" onNavigate={onNavigate} />
 
       <motion.div
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
-        className="container mx-auto px-6 py-8 w-full sm:w-3/4 md:w-2/3 lg:w-1/2"
+        className="container mx-auto px-6 py-12 w-full sm:w-3/4 md:w-2/3 lg:w-1/2"
       >
-        <main>
-          <div className="bg-white rounded-xl shadow-lg p-8 space-y-8">
-            {/* Gig Title Header */}
-            <div className="flex items-center justify-between mb-6">
-              <Button
-                variant="ghost"
-                onClick={onBack}
-                className="text-gray-600 hover:text-teal-600 transition-colors"
-              >
-                <ArrowLeft className="h-6 w-6 mr-2" />
-                Back
-              </Button>
-              <h1 className="text-2xl font-semibold text-gray-800">{gig.topic}</h1>
-            </div>
-
-            {/* Creator details */}
-              <div className="space-y-4">
-                <div className="flex items-center justify-center space-x-4">
-                  <img
-                    src='/assets/manager.png'
-                    alt="Manager Icon"
-                    className="w-12 h-12 rounded-full object-cover border-2 border-teal-600"
-                  />
-                  <div className="text-left">
-                    <p className="text-gray-600">Posted By: {gig.manager.name}</p>
-                    <p className="text-gray-600">UID: {gig.manager._id}</p>
-                    <p className="text-gray-600">Role: {gig.manager.role}</p>
-                    <a
-                      href={gig.teamsLink}
-                      className="text-teal-600 hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Teams link (click to chat)
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-
-            {/* Gig Task Description */}
-            <div>
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">Task Description</h2>
-              <p className="text-gray-700 text-lg whitespace-pre-line">{gig.title}</p>
-            </div>
-
-            {/* Interest Button */}
-            <div className="text-right">
-              { engagementStatus === null ? (
-                  <Button
-                    className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-md transition-all duration-300"
-                    onClick={handleShowInterest}
-                  >
-                    Show Interest
-                  </Button>
-              ): (
-                <Button
-                  className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-md transition-all duration-300"
-                  onClick={handleWithdrawInterest}
-                >
-                  Withdraw Interest
-                </Button>
-              )}
-            </div>
-
-            {/* Interest Confirmation Dialog */}
-            <Dialog open={isInterestPopupOpen} onOpenChange={setIsInterestPopupOpen}>
-              <DialogContent className="bg-gray-100 sm:max-w-[425px] flex flex-col items-center justify-center p-6">
-                <DialogHeader>
-                  <DialogTitle className="text-teal-600 text-2xl font-semibold">
-                    Interest Confirmation
-                  </DialogTitle>
-                </DialogHeader>
-                <div className="text-center space-y-4">
-                  <p className="text-teal-600 font-semibold">
-                    You have successfully shown interest in this gig!
-                  </p>
-                  <p className="text-gray-700 text-lg">
-                    The manager has been notified, and your request is now pending
-                    approval. You will be notified once the manager reviews and approves
-                    your participation.
-                  </p>
-                </div>
-                <DialogFooter>
-                  <Button
-                    className="w-full bg-teal-600 hover:bg-teal-700 text-white"
-                    onClick={handleInterestConfirm}
-                  >
-                    OK
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-
-            {/* Withdraw Interest Confirmation Dialog */}
-            <Dialog open={isWithdrawPopupOpen} onOpenChange={setIsWithdrawPopupOpen}>
-              <DialogContent className="bg-gray-100 sm:max-w-[425px] flex flex-col items-center justify-center p-6">
-                <DialogHeader>
-                  <DialogTitle className="text-red-600 text-2xl font-semibold">
-                    Withdraw Interest
-                  </DialogTitle>
-                </DialogHeader>
-                <div className="text-center space-y-4">
-                  <p className="text-gray-700 text-lg">
-                    Are you sure you want to withdraw your interest in this gig?
-                  </p>
-                  <p className="text-gray-700 text-lg">
-                    This action cannot be undone, and you'll need to show interest
-                    again if you change your mind.
-                  </p>
-                </div>
-                <DialogFooter className="flex justify-between w-full">
-                  <Button
-                    className="bg-gray-400 hover:bg-gray-500 text-white"
-                    onClick={() => setIsWithdrawPopupOpen(false)}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    className="bg-red-600 hover:bg-red-700 text-white"
-                    onClick={handleWithdrawConfirm}
-                  >
-                    Confirm Withdraw
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+        <div className="bg-white rounded-2xl shadow-md p-8 space-y-8">
+          {/* Header Section */}
+          <div className="flex items-center justify-between">
+            <Button
+              variant="ghost"
+              onClick={onBack}
+              className="flex items-center text-gray-600 hover:text-teal-600"
+            >
+              <ArrowLeft className="h-5 w-5 mr-1" />
+              Back
+            </Button>
+            <h1 className="text-2xl font-bold text-gray-800 text-right">{gig.topic}</h1>
           </div>
-        </main>
+
+          {/* Creator Info */}
+          <div className="flex items-center space-x-4">
+            <img
+              src="/assets/manager.png"
+              alt="Manager"
+              className="w-12 h-12 rounded-full border-2 border-teal-600"
+            />
+            <div>
+              <p className="text-sm text-gray-600">Posted By: {gig.manager.name}</p>
+              <p className="text-sm text-gray-600">UID: {gig.manager._id}</p>
+              <p className="text-sm text-gray-600">Role: {gig.manager.role}</p>
+              <a
+                href={gig.teamsLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-teal-600 hover:underline"
+              >
+                Teams link (click to chat)
+              </a>
+            </div>
+          </div>
+
+          {/* Gig Details */}
+          <div>
+            <h2 className="text-lg font-semibold text-gray-800 mb-2">Task Description</h2>
+            <p className="text-gray-700">{gig.title}</p>
+          </div>
+
+          {/* Action Button */}
+          <div className="text-right">
+            {engagementStatus === null ? (
+              <Button
+                className="bg-teal-600 text-white hover:bg-teal-700 transition-all"
+                onClick={handleShowInterest}
+              >
+                Show Interest
+              </Button>
+            ) : (
+              <Button
+                className="bg-red-600 text-white hover:bg-red-700 transition-all"
+                onClick={handleWithdrawInterest}
+              >
+                Withdraw Interest
+              </Button>
+            )}
+          </div>
+        </div>
+
+        {/* Dialogs */}
+        <Dialog open={isInterestPopupOpen} onOpenChange={setIsInterestPopupOpen}>
+          <DialogContent className="text-center bg-white rounded-xl shadow-md p-8">
+            <DialogHeader>
+              <DialogTitle className="text-xl font-bold text-teal-600">
+                Interest Confirmation
+              </DialogTitle>
+            </DialogHeader>
+            <p className="text-gray-700 my-4">
+              You have successfully shown interest in this gig! The manager has been
+              notified and will review your request shortly.
+            </p>
+            <DialogFooter>
+              <Button className="bg-teal-600 text-white" onClick={handleInterestConfirm}>
+                OK
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={isWithdrawPopupOpen} onOpenChange={setIsWithdrawPopupOpen}>
+          <DialogContent className="text-center bg-white rounded-xl shadow-md p-8">
+            <DialogHeader>
+              <DialogTitle className="text-xl font-bold text-red-600">
+                Withdraw Interest
+              </DialogTitle>
+            </DialogHeader>
+            <p className="text-gray-700 my-4">
+              Are you sure you want to withdraw your interest? This action cannot be
+              undone.
+            </p>
+            <DialogFooter>
+              <Button
+                className="bg-gray-400 text-white"
+                onClick={() => setIsWithdrawPopupOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                className="bg-red-600 text-white"
+                onClick={handleWithdrawConfirm}
+              >
+                Confirm
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </motion.div>
     </div>
-
   );
 }
 
 GigDetailsPage.propTypes = {
   gig: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
+    topic: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    postedBy: PropTypes.string.isRequired,
-    uid: PropTypes.string.isRequired,
-    role: PropTypes.string.isRequired,
+    manager: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      _id: PropTypes.string.isRequired,
+      role: PropTypes.string.isRequired,
+    }).isRequired,
     teamsLink: PropTypes.string.isRequired,
-    fullDescription: PropTypes.string.isRequired,
   }).isRequired,
   onBack: PropTypes.func.isRequired,
   onShowInterest: PropTypes.func.isRequired,
   onWithdrawInterest: PropTypes.func.isRequired,
   onNavigate: PropTypes.func.isRequired,
-  isInterested: PropTypes.bool.isRequired,
 };

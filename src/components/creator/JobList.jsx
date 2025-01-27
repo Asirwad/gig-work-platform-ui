@@ -109,7 +109,7 @@ export function JobList({ jobs, setJobs, onUpdateJob, onSubmitJob }) {
                       : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                   }`}
                 >
-                  Status: {job.status.toUpperCase()}
+                  {job.status}
                 </span>
               </div>
               <div className="flex items-center space-x-2">

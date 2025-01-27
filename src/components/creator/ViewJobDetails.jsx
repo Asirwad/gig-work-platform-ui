@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from 'react-toastify';
-import { getUStarName, getUStarPoint } from '../../lib/utils'
+import { getGigStatusBadgeColor, getUStarName, getUStarPoint } from '../../lib/utils'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from 'framer-motion';
 import {
@@ -305,30 +305,11 @@ export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
                     <h1 className="text-2xl font-bold">{job.topic}</h1>
                     <h6 className="text-1xl">{job.description}</h6>
                     <div className="mt-2 flex items-center space-x-2">
-                      <span className="text-sm text-gray-500">Status: {job.status}</span>
+                      <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${getGigStatusBadgeColor(job.status)}`}>{job.status}</span>
                       <span className="text-sm text-gray-500">•</span>
                       <span className="text-sm text-gray-500">USTAR Points: {getUStarPoint.get(job.ustar_category)} ({job.ustar_category})</span>
                     </div>
                   </div>
-                  {/* <div className="text-right space-y-2">
-                    <p className="text-sm">
-                      <span className="font-medium">Posted by:</span> {job.manager.name}
-                    </p>
-                    <p className="text-sm">
-                      <span className="font-medium">Role:</span> {job.manager.role}
-                    </p>
-                    <p className="text-sm">
-                      <span className="font-medium">Teams link:</span>{' '}
-
-                      < a href={job.teamsLink  || 'https://teams.microsoft.com/l/chat/7'}
-                        className="text-blue-600 hover:underline"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {job.teamsLink || 'https://teams.microsoft.com/l/chat/7'}
-                      </a>
-                    </p>
-                  </div> */}
                 </div>
               </div>
 

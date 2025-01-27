@@ -8,6 +8,7 @@ import appConfig from "../../AppConfig.json";
 import { getUStarPoint } from "../../lib/utils"
 import axios from "axios";
 import { motion } from "framer-motion";
+import UStarTooltip from "../../utils/UStarTooltip/UStarTooltip";
 
 
 export function MyJobsPage({ onViewGig, onNavigate }) {
@@ -90,10 +91,7 @@ export function MyJobsPage({ onViewGig, onNavigate }) {
                   <CardTitle badge={gig.gig_engagement_status} className="text-xl font-bold">
                     {gig.topic}
                   </CardTitle>
-                  <Button variant="ghost" size="icon" className="text-yellow-500">
-                      <Star className="h-4 w-4" />
-                      <span className="ml-1">{getUStarPoint.get(gig.ustar_category)}</span>
-                  </Button>
+                  <UStarTooltip trigger={getUStarPoint.get(gig.ustar_category)} content={gig.ustar_category} />
                 </CardHeader>
                 <CardContent className="flex-grow flex flex-col justify-between">
                   <div>

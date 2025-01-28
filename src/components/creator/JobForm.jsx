@@ -2,6 +2,7 @@ import React from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { motion } from 'framer-motion';
+import MarkdownEditor from "@uiw/react-markdown-editor";
 
 export function JobForm({
   formData,
@@ -17,6 +18,13 @@ export function JobForm({
         setFormData({
             ...formData,
             [name]: value
+        });
+    };
+
+    const handleMarkdownChange = (value) => {
+        setFormData({
+            ...formData,
+            task: value,
         });
     };
 
@@ -94,10 +102,10 @@ export function JobForm({
                     </div>
                 </div>
 
-                {/* Second Row: Description and Task */}
+                {/* Second Row: Description */}
                 <div className="flex space-x-6">
                     {/* Description Field */}
-                    <div className="w-1/2">
+                    <div className="w-full">
                     <label
                         htmlFor="description"
                         className={`block text-sm font-semibold mb-1 ${
@@ -114,16 +122,19 @@ export function JobForm({
                         name="description"
                         value={formData.description}
                         onChange={handleChange}
-                        className={`w-full h-48 border rounded-lg p-3 text-sm resize-none ${
+                        className={`w-full h-24 border rounded-lg p-3 text-sm resize-none ${
                         errors.description
                             ? "border-red-500 focus:ring-red-500"
                             : "focus:ring-teal-500"
                         }`}
                     />
                     </div>
+                </div>
 
+                {/* Third Row: Task */}
+                <div className="flex space-x-6">
                     {/* Task Field */}
-                    <div className="w-1/2">
+                    <div className="w-full">
                     <label
                         htmlFor="task"
                         className={`block text-sm font-semibold mb-1 ${
@@ -135,16 +146,13 @@ export function JobForm({
                         <span className="text-red-500 text-xs ml-1">Required</span>
                         )}
                     </label>
-                    <textarea
-                        id="task"
-                        name="task"
+                    <MarkdownEditor
                         value={formData.task}
-                        onChange={handleChange}
-                        className={`w-full h-48 border rounded-lg p-3 text-sm resize-none ${
-                        errors.task
-                            ? "border-red-500 focus:ring-red-500"
-                            : "focus:ring-teal-500"
-                        }`}
+                        height="400px"
+                        onChange={(value) => handleMarkdownChange(value)}
+                        className={`${
+                            errors.task ? "border-red-500" : "focus:ring-teal-500"
+                          }`}
                     />
                     </div>
                 </div>

@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/dialog";
 import appConfig from "../../AppConfig.json";
 import axios from "axios";
+import MarkdownEditor from '@uiw/react-markdown-editor';
+import MarkdownPreview from '@uiw/react-markdown-preview';
 
 export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
   const [isEditingTask, setIsEditingTask] = useState(false);
@@ -111,7 +113,7 @@ export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
   };
 
   const handleTaskCancel = () => {
-    setTaskDetails(job.task);
+    setTaskDetails(job.title);
     setIsEditingTask(false);
   };
 
@@ -406,12 +408,7 @@ export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
                   )}
                 </TabsContent>
 
-                {/* <TabsContent value="task" className="mt-6">
-                  <div className="prose max-w-none">
-                    <h3 className="text-lg font-semibold mb-4">Task Details</h3>
-                    <p>{job.title}</p>
-                  </div>
-                </TabsContent> */}
+                
                 <TabsContent value="task" className="mt-6">
                   <motion.div
                     initial={{ y: 50, opacity: 0 }}
@@ -420,15 +417,15 @@ export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
                     viewport={{ amount: 0.3, once: true }}
                     className="prose max-w-none"
                   >
-                    <h3 className="text-lg font-semibold mb-4">Task Details </h3>
+                  
                     {isEditingTask ? (
                       <div>
                         <Label htmlFor="task-details">Task Details</Label>
-                        <Input
-                          id="task-details"
+                        <MarkdownEditor
                           value={taskDetails}
-                          onChange={(e) => setTaskDetails(e.target.value)}
-                          className="mb-4"
+                          height="400px"
+                          onChange={(value) => setTaskDetails(value)}
+                          className='mb-4'
                         />
                         <div className="flex justify-end space-x-2">
                           <Button
@@ -445,10 +442,22 @@ export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
                       </div>
                     ) : (
                       <div className="relative pb-6">
-                        <p className="whitespace-pre-line">{taskDetails}</p>
+                        <MarkdownPreview 
+                          source={taskDetails} 
+                          style={{ 
+                            padding: 16,
+                            backgroundColor: '#2d2d2d',
+                            color: 'whitesmoke',
+                            borderRadius: 8,
+                            overflow: 'auto',
+                            maxHeight: '400px',
+                            fontSize: '0.875rem',
+                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                           }}
+                        />
                         <button
                           onClick={handleTaskEdit}
-                          className="absolute bottom-0 right-0 bg-teal-600 hover:bg-teal-400 text-white text-sm px-4 py-1.5 rounded"
+                          className="absolute mt-3 right-0 bg-teal-600 hover:bg-teal-400 text-white text-sm px-4 py-1.5 rounded"
                         >
                           Edit
                         </button>

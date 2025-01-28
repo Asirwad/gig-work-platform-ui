@@ -13,6 +13,7 @@ import { Header } from "./Header";
 import appconfig from "../../AppConfig.json";
 import axios from "axios";
 import { motion } from "framer-motion";
+import MarkdownPreview from '@uiw/react-markdown-preview';
 
 export function GigDetailsPage({
   gig,
@@ -99,7 +100,7 @@ export function GigDetailsPage({
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
-        className="container mx-auto px-6 py-12 w-full sm:w-3/4 md:w-2/3 lg:w-1/2"
+        className="container mx-auto px-6 py-12 w-full min-w-[1200px] sm:w-3/4 md:w-2/3 lg:w-1/2"
       >
         <div className="bg-white rounded-2xl shadow-md p-8 space-y-8">
           {/* Header Section */}
@@ -115,32 +116,57 @@ export function GigDetailsPage({
             <h1 className="text-2xl font-bold text-gray-800 text-right">{gig.topic}</h1>
           </div>
 
-          {/* Creator Info */}
-          <div className="flex items-center space-x-4">
-            <img
-              src="/assets/manager.png"
-              alt="Manager"
-              className="w-12 h-12 rounded-full border-2 border-teal-600"
-            />
-            <div>
-              <p className="text-sm text-gray-600">Posted By: {gig.manager.name}</p>
-              <p className="text-sm text-gray-600">UID: {gig.manager._id}</p>
-              <p className="text-sm text-gray-600">Role: {gig.manager.role}</p>
-              <a
-                href={gig.teamsLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-teal-600 hover:underline"
-              >
-                Teams link (click to chat)
-              </a>
+          {/* Content Section (Two Columns Layout) */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left Column (Gig Description & Creator Info) */}
+            <div className="lg:col-span-1 flex flex-col justify-between space-y-4">
+              <div className="flex-grow bg-gray-50 rounded-lg p-4 shadow-md hover:shadow-lg mt-6 border-green-300 border-2 border-dashed">
+                <h2 className="text-xl text-gray-800 font-medium">Description</h2>
+                <h3 className="text-sm mt-2">{gig.description}</h3>
+              </div>
+              { /* Creator info section */}
+              <div className="mt-auto">
+                <div className="flex items-center space-x-4">
+                  <img
+                    src="/assets/manager.png"
+                    alt="Manager"
+                    className="w-12 h-12 rounded-full border-2 border-teal-600"
+                  />
+                  <div>
+                    <p className="text-sm text-gray-600">Posted By: {gig.manager.name}</p>
+                    <p className="text-sm text-gray-600">UID: {gig.manager._id}</p>
+                    <p className="text-sm text-gray-600">Role: {gig.manager.role}</p>
+                    <a
+                      href={gig.teamsLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-teal-600 hover:underline"
+                    >
+                      Teams link (click to chat)
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
 
-          {/* Gig Details */}
-          <div>
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">Task Description</h2>
-            <p className="text-gray-700">{gig.title}</p>
+
+            {/* Right Column (Task Description) */}
+            <div className="lg:col-span-2">
+              <h2 className="text-lg font-semibold text-gray-800 mb-2">Task Description</h2>
+              <MarkdownPreview
+                source={gig.title}
+                style={{
+                  padding: 16,
+                  backgroundColor: '#2d2d2d',
+                  color: 'whitesmoke',
+                  borderRadius: 8,
+                  overflow: 'auto',
+                  maxHeight: '400px',
+                  fontSize: '0.875rem',
+                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                }}
+              />
+            </div>
           </div>
 
           {/* Action Button */}

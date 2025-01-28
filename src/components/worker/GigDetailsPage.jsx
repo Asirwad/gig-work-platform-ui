@@ -120,7 +120,7 @@ export function GigDetailsPage({
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Column (Gig Description & Creator Info) */}
             <div className="lg:col-span-1 flex flex-col justify-between space-y-4">
-              <div className="flex-grow bg-gray-50 rounded-lg p-4 shadow-md hover:shadow-lg mt-6 border-green-300 border-2 border-dashed">
+              <div className="flex-grow bg-gray-50 rounded-lg p-4 shadow-md hover:shadow-lg mt-6 border-green-300 border-2">
                 <h2 className="text-xl text-gray-800 font-medium">Description</h2>
                 <h3 className="text-sm mt-2">{gig.description}</h3>
               </div>
@@ -157,13 +157,14 @@ export function GigDetailsPage({
                 source={gig.title}
                 style={{
                   padding: 16,
-                  backgroundColor: '#2d2d2d',
-                  color: 'whitesmoke',
+                  backgroundColor: 'whitesmoke',
+                  color: '#2d2d2d',
                   borderRadius: 8,
                   overflow: 'auto',
                   maxHeight: '400px',
                   fontSize: '0.875rem',
                   boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                  border: '2px solid #86efac',
                 }}
               />
             </div>

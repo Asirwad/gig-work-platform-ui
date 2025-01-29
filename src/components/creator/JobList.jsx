@@ -95,9 +95,9 @@ export function JobList({ jobs, setJobs, onUpdateJob, onSubmitJob }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: index * 0.15 }}
         >
-          <div className="relative bg-white outline outline-gray-200 rounded-md p-6 shadow-md hover:shadow-xl transition-shadow duration-300">
+          <div className="relative bg-white outline outline-gray-200 rounded-md p-6 shadow-md hover:shadow-xl transition-shadow duration-300 h-full flex flex-col">
             {/* Top Section */}
-            <div className="flex justify-between items-start mb-4">
+            <div className="flex justify-between items-start mb-4 flex-grow">
               <div>
                 <h3 className="text-xl font-bold text-gray-800 tracking-tight">
                   {job.topic}
@@ -115,20 +115,20 @@ export function JobList({ jobs, setJobs, onUpdateJob, onSubmitJob }) {
                 </span>
               </div>
               <div className="flex items-center space-x-2">
-                    <button
-                      class="text-white bg-gradient-to-r from-teal-500 via-teal-600 to-teal-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-sm shadow-teal-500/50 dark:shadow-sm dark:shadow-teal-800/80 font-medium rounded-md text-xs mr-0 p-1 hover:translate-y-1 transition duration-300"
-                      type="button"
-                    >
-                      {job.ustar_category}
-                    </button>
+                <button
+                  className="text-white bg-gradient-to-r from-teal-500 via-teal-600 to-teal-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-sm shadow-teal-500/50 dark:shadow-sm dark:shadow-teal-800/80 font-medium rounded-md text-xs mr-0 p-1 hover:translate-y-1 transition duration-300"
+                  type="button"
+                >
+                  {job.ustar_category}
+                </button>
               </div>
             </div>
 
             {/* Description */}
-            <p className="text-gray-700 mb-6 leading-relaxed">{job.description}</p>
+            <p className="text-gray-700 mb-6 leading-relaxed flex-grow">{job.description}</p>
 
             {/* Action Buttons */}
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 mb-4">
               <Button
                 variant="default"
                 size="sm"
@@ -164,6 +164,7 @@ export function JobList({ jobs, setJobs, onUpdateJob, onSubmitJob }) {
             {/* Decorative Overlay */}
             <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-transparent via-transparent to-teal-100 opacity-0 hover:opacity-30 transition-opacity duration-300 pointer-events-none"></div>
           </div>
+
         </motion.div>
       ))}
       {/* Fallback Message */}

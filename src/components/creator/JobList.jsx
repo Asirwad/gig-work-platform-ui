@@ -128,7 +128,7 @@ export function JobList({ jobs, setJobs, onUpdateJob, onSubmitJob }) {
             <p className="text-gray-700 mb-6 leading-relaxed flex-grow">{job.description}</p>
 
             {/* Action Buttons */}
-            <div className="flex space-x-4 mb-4">
+            <div className="flex space-x-4">
               <Button
                 variant="default"
                 size="sm"

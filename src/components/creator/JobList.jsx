@@ -4,9 +4,11 @@ import { ViewJobDetails } from "./ViewJobDetails";
 import axios from "axios";
 import appConfig from "../../AppConfig.json";
 import { motion } from "framer-motion";
-import { getUStarPoint } from "../../lib/utils";
+import { getUStarName, getUStarPoint } from "../../lib/utils";
 import { toast, ToastContainer } from "react-toastify";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '../ui/dialog';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
+import { ArrowBigRight, ArrowRight } from "lucide-react";
 
 export function JobList({ jobs, setJobs, onUpdateJob, onSubmitJob }) {
   const [selectedJob, setSelectedJob] = useState(null);
@@ -85,7 +87,7 @@ export function JobList({ jobs, setJobs, onUpdateJob, onSubmitJob }) {
 
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {jobs.filter(job => job.status !== 'revoked').map((job, index) => (
         <motion.div
           key={job.id}
@@ -93,7 +95,7 @@ export function JobList({ jobs, setJobs, onUpdateJob, onSubmitJob }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: index * 0.15 }}
         >
-          <div className="relative bg-gradient-to-r from-white to-gray-50 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <div className="relative bg-gradient-to-r from-white to-blue-50 outline outline-gray-200 rounded-md p-6 shadow-md hover:shadow-xl transition-shadow duration-300">
             {/* Top Section */}
             <div className="flex justify-between items-start mb-4">
               <div>
@@ -113,10 +115,12 @@ export function JobList({ jobs, setJobs, onUpdateJob, onSubmitJob }) {
                 </span>
               </div>
               <div className="flex items-center space-x-2">
-                <span className="text-sm font-semibold text-gray-600">USTAR</span>
-                <div className="h-8 w-8 bg-gradient-to-r from-teal-500 to-teal-700 text-white rounded-full flex items-center justify-center shadow-lg">
-                  {getUStarPoint.get(job.ustar_category)}
-                </div>
+                    <button
+                      class="text-white bg-gradient-to-r from-teal-500 via-teal-600 to-teal-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-sm shadow-teal-500/50 dark:shadow-sm dark:shadow-teal-800/80 font-medium rounded-md text-xs mr-0 p-1 hover:translate-y-1 transition duration-300"
+                      type="button"
+                    >
+                      {job.ustar_category}
+                    </button>
               </div>
             </div>
 
@@ -126,17 +130,18 @@ export function JobList({ jobs, setJobs, onUpdateJob, onSubmitJob }) {
             {/* Action Buttons */}
             <div className="flex space-x-4">
               <Button
-                variant="outline"
+                variant="default"
                 size="sm"
-                className="bg-white text-teal-600 border-teal-600 hover:bg-teal-50 transition-transform transform hover:scale-105"
+                className="w-1/2 bg-gradient-to-r from-teal-600 to-teal-700 text-white transition-transform transform hover:scale-105"
                 onClick={() => handleJobSelect(job)}
               >
-                {job.status === "approved" ? "Edit" : "View"}
+                <span>View</span>
+                <ArrowRight size={16} className="ml-1 transition duration-300 hover:translate-x-2"/>
               </Button>
               <Button
                 variant="outline"
                 size="sm"
-                className="bg-white text-teal-600 border-teal-600 hover:bg-teal-50 transition-transform transform hover:scale-105"
+                className="w-1/4 bg-white text-teal-600 border-teal-600 hover:bg-teal-50 transition-transform transform hover:scale-105"
                 onClick={() =>
                   handlePause(
                     job._id,
@@ -144,12 +149,12 @@ export function JobList({ jobs, setJobs, onUpdateJob, onSubmitJob }) {
                   )
                 }
               >
-                {job.status === "paused" ? "Open" : "Pause"}
+                {job.status === "paused" ? "Resume" : "Pause"}
               </Button>
               <Button
                 variant="outline"
                 size="sm"
-                className="bg-white text-teal-600 border-teal-600 hover:bg-red-500 hover:text-white transition-transform transform hover:scale-105"
+                className="w-1/4 bg-white text-teal-600 border-teal-600 hover:bg-red-500 hover:text-white transition-transform transform hover:scale-105"
                 onClick={() => handleRevoke(job._id)}
               >
                 Revoke

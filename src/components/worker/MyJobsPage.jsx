@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Star } from "lucide-react";
 import { Header } from "./Header";
 import appConfig from "../../AppConfig.json";
-import { getUStarPoint } from "../../lib/utils"
+import { getUStarName, getUStarPoint } from "../../lib/utils"
 import axios from "axios";
 import { motion } from "framer-motion";
 import UStarTooltip from "../../utils/UStarTooltip/UStarTooltip";
@@ -91,7 +91,12 @@ export function MyJobsPage({ onViewGig, onNavigate }) {
                   <CardTitle badge={gig.gig_engagement_status} className="text-xl font-bold">
                     {gig.topic}
                   </CardTitle>
-                  <UStarTooltip trigger={getUStarPoint.get(gig.ustar_category)} content={gig.ustar_category} />
+                  <button
+                      class="text-white bg-gradient-to-r from-teal-500 via-teal-600 to-teal-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-sm shadow-teal-500/50 dark:shadow-sm dark:shadow-teal-800/80 font-medium rounded-md text-xs mr-0 p-1 hover:translate-y-1 transition duration-300"
+                      type="button"
+                  >
+                      {gig.ustar_category}
+                  </button>
                 </CardHeader>
                 <CardContent className="flex-grow flex flex-col justify-between">
                   <div>

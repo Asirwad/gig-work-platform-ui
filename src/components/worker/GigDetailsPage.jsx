@@ -94,7 +94,7 @@ export function GigDetailsPage({
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
-      <Header activePage="jobs" onNavigate={onNavigate} />
+      <Header activePage="" onNavigate={onNavigate} />
 
       <motion.div
         initial={{ opacity: 0, x: 50 }}

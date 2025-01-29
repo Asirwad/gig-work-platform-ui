@@ -95,7 +95,7 @@ export function JobList({ jobs, setJobs, onUpdateJob, onSubmitJob }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: index * 0.15 }}
         >
-          <div className="relative bg-gradient-to-r from-white to-blue-50 outline outline-gray-200 rounded-md p-6 shadow-md hover:shadow-xl transition-shadow duration-300">
+          <div className="relative bg-white outline outline-gray-200 rounded-md p-6 shadow-md hover:shadow-xl transition-shadow duration-300">
             {/* Top Section */}
             <div className="flex justify-between items-start mb-4">
               <div>

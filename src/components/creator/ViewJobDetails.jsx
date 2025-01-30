@@ -21,6 +21,7 @@ import appConfig from "../../AppConfig.json";
 import axios from "axios";
 import MarkdownEditor from '@uiw/react-markdown-editor';
 import MarkdownPreview from '@uiw/react-markdown-preview';
+import { SubmittedBadge } from '../../utils/SubmittedBadge/submittedBadge';
 
 export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
   const [isEditingTask, setIsEditingTask] = useState(false);
@@ -396,6 +397,9 @@ export function ViewJobDetails({ job, onBack, onSave, onSubmit }) {
                                       Reject
                                     </Button>
                                   </>
+                                )}
+                                {user.status === 'submitted' && (
+                                  <SubmittedBadge />
                                 )}
                               </div>
                             </div>

@@ -159,13 +159,13 @@ export function JobForm({
 
                 {/* Buttons */}
                 <div className="flex justify-end space-x-4">
-                    <Button
+                    {/* <Button
                     type="button"
                     onClick={handleSave}
                     className="bg-gray-100 text-teal-600 border border-teal-600 hover:bg-teal-50 hover:text-teal-700 transition-transform transform hover:scale-105 px-6 py-2 rounded-lg"
                     >
                     Save
-                    </Button>
+                    </Button> */}
                     <Button
                     type="submit"
                     className="bg-teal-600 text-white hover:bg-teal-700 transition-transform transform hover:scale-105 px-6 py-2 rounded-lg"

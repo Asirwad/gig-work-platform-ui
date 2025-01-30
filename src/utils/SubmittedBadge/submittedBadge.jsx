@@ -2,7 +2,7 @@ import React from 'react'
 
 export const SubmittedBadge = () => {
   return (
-    <div class="ml-auto">
+    <div class="ml-auto mt-5">
           <div
             class="flex items-center gap-1 rounded-full bg-indigo-500/10 px-3 py-1"
           >
@@ -19,7 +19,7 @@ export const SubmittedBadge = () => {
                 stroke-linecap="round"
               ></path>
             </svg>
-            <span class="text-xs font-medium text-indigo-500">Submitted</span>
+            <span class="text-sm font-medium text-indigo-500">Submitted</span>
           </div>
         </div>
   )

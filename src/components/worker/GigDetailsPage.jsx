@@ -27,6 +27,7 @@ export function GigDetailsPage({
   const [isWithdrawPopupOpen, setIsWithdrawPopupOpen] = useState(false);
   const [isSubmitPopupOpen, setIsSubmitPopupOpen] = useState(false);
   const [engagementStatus, setEngagementStatus] = useState(null);
+  const [isAfterSubmitConfirmPopupOpen, setIsAfterSubmitConfirmPopupOpen] = useState(false);
 
   useEffect(() => {
     axios
@@ -108,7 +109,7 @@ export function GigDetailsPage({
       setIsSubmitPopupOpen(false);
       setEngagementStatus("submitted");
       // onNavigate("myJobs");
-      toast.success("Gig submitted successfully");
+      setIsAfterSubmitConfirmPopupOpen(true);
     }).catch((error) => {
       console.error(error);
     });
@@ -305,6 +306,24 @@ export function GigDetailsPage({
               </Button>
               <Button className="bg-teal-600 text-white" onClick={()=> {setIsSubmitPopupOpen(false)}}>
                 Cancel
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+        <Dialog open={isAfterSubmitConfirmPopupOpen} onOpenChange={setIsAfterSubmitConfirmPopupOpen}>
+          <DialogContent className="text-center bg-white rounded-xl shadow-md p-8">
+            <DialogHeader>
+              {/* <DialogTitle className="text-xl font-bold text-teal-600">
+                Info
+              </DialogTitle> */}
+            </DialogHeader>
+            <p className="text-gray-700 my-4">
+              Your gig has been successfully submitted! The manager has been notified, and you will recive your USTAR points once the review is complete.
+              Thank you for your contribution!
+            </p>
+            <DialogFooter>
+              <Button className="bg-teal-600 text-white mx-5 p-3" onClick={()=> setIsAfterSubmitConfirmPopupOpen(false)}>
+                OK
               </Button>
             </DialogFooter>
           </DialogContent>

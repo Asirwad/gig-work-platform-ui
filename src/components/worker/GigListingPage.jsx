@@ -33,8 +33,6 @@ export function GigListingPage({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const user_id = appConfig.hardCodedUserId;
-
   const handleViewClick = (gig) => {
     setSelectedGig(gig);
     setIsDisclaimerOpen(true);
@@ -56,12 +54,12 @@ export function GigListingPage({
     const fetchGigs = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(appConfig.apiBaseUrl + "/gigs", {
+        const response = await axios.get(appConfig.apiBaseUrl + "/gigs_without_engagement", {
           headers: {
-            "user_id": user_id
+            "user_id": appConfig.hardCodedUserId
           }
         });
-        //console.log(response.data);
+        // console.log(response.data);
         setGigs(response.data.gigs.filter((gig)=> gig.status !== 'revoked' && gig.status !== 'awaiting_admin_approval'));
       } catch (err) {
         setError(err.message);

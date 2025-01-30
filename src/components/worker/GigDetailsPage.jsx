@@ -8,12 +8,13 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Pocket } from "lucide-react";
 import { Header } from "./Header";
 import appconfig from "../../AppConfig.json";
 import axios from "axios";
 import { motion } from "framer-motion";
 import MarkdownPreview from '@uiw/react-markdown-preview';
+import { toast, ToastContainer } from "react-toastify";
 
 export function GigDetailsPage({
   gig,
@@ -24,6 +25,7 @@ export function GigDetailsPage({
 }) {
   const [isInterestPopupOpen, setIsInterestPopupOpen] = useState(false);
   const [isWithdrawPopupOpen, setIsWithdrawPopupOpen] = useState(false);
+  const [isSubmitPopupOpen, setIsSubmitPopupOpen] = useState(false);
   const [engagementStatus, setEngagementStatus] = useState(null);
 
   useEffect(() => {
@@ -90,6 +92,27 @@ export function GigDetailsPage({
         console.error(error);
       });
   };
+
+  const submitButtonClicked = () => {
+    setIsSubmitPopupOpen(true);
+  }
+
+  const handleSubmitConfirm = () => {
+    const payload = {
+      gig_id: gig._id,
+      user_id: appconfig.hardCodedUserId,
+      status: "submitted",
+    };
+    axios.patch(appconfig.apiBaseUrl + '/update_gig_engagement', payload)
+    .then((response) => {
+      setIsSubmitPopupOpen(false);
+      setEngagementStatus("submitted");
+      // onNavigate("myJobs");
+      toast.success("Gig submitted successfully");
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -173,19 +196,46 @@ export function GigDetailsPage({
 
           {/* Action Button */}
           <div className="text-right">
-            {engagementStatus === null ? (
+            {engagementStatus === "interested" && (
+              <div className="flex justify-end space-x-4">
+                <Button
+                  className="bg-red-600 text-white hover:bg-red-700 transition-all"
+                  onClick={handleWithdrawInterest}
+                >
+                  Withdraw Interest
+                </Button>
+              </div>
+            )}
+            {engagementStatus === 'approved' && (
+             <div className="flex justify-end items-center space-x-4">
+              <Button
+                  className="bg-teal-600 text-white hover:bg-teal-700 transition-all"
+                  onClick={submitButtonClicked}
+                >
+                  Submit
+              </Button>
+              <Button
+                  className="bg-red-600 text-white hover:bg-red-700 transition-all"
+                  onClick={handleWithdrawInterest}
+                >
+                  Withdraw Interest
+              </Button>
+             </div>
+            )}
+            {engagementStatus === "submitted" && (
+              <div className="flex justify-end items-center space-x-1">
+                <Button className=" text-white text-md bg-gradient-to-r from-teal-500 to-blue-600 transition-transform duration-200 hover:scale-105">
+                  Submitted
+                  <Pocket className="ml-1" size={18}/>
+                </Button>
+              </div>
+            )}
+            {engagementStatus === null && engagementStatus !== "interested" && (
               <Button
                 className="bg-teal-600 text-white hover:bg-teal-700 transition-all"
                 onClick={handleShowInterest}
               >
                 Show Interest
-              </Button>
-            ) : (
-              <Button
-                className="bg-red-600 text-white hover:bg-red-700 transition-all"
-                onClick={handleWithdrawInterest}
-              >
-                Withdraw Interest
               </Button>
             )}
           </div>
@@ -238,7 +288,29 @@ export function GigDetailsPage({
             </DialogFooter>
           </DialogContent>
         </Dialog>
+
+        <Dialog open={isSubmitPopupOpen} onOpenChange={setIsSubmitPopupOpen}>
+          <DialogContent className="text-center bg-white rounded-xl shadow-md p-8">
+            <DialogHeader>
+              <DialogTitle className="text-xl font-bold text-teal-600">
+                Submit Confirmation
+              </DialogTitle>
+            </DialogHeader>
+            <p className="text-gray-700 my-4">
+              Are you sure you want to submit? This action cannot be undone.
+            </p>
+            <DialogFooter>
+              <Button className="bg-teal-600 text-white" onClick={handleSubmitConfirm}>
+                Submit
+              </Button>
+              <Button className="bg-teal-600 text-white" onClick={()=> {setIsSubmitPopupOpen(false)}}>
+                Cancel
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </motion.div>
+      <ToastContainer/>
     </div>
   );
 }

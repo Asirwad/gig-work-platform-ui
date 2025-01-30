@@ -30,6 +30,7 @@ const CardTitle = React.forwardRef(({ className, children, badge, ...props }, re
     paused: "bg-yellow-50 text-yellow-700 ring-yellow-600/20",
     interested: "bg-blue-50 text-blue-700 ring-blue-600/20",
     rejected: "bg-red-50 text-red-700 ring-red-600/20",
+    submitted: "bg-violet-50 text-violet-700 ring-violet-600/20",
   };
 
   const badgeStyle = badgeStyles[badge];
